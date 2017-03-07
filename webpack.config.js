@@ -2,6 +2,7 @@
 
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var ENV = process.env.npm_lifecycle_event;
 var isTest = ENV === 'test' || ENV === 'test-watch';
@@ -9,10 +10,15 @@ var isProd = ENV === 'build';
 
 module.exports = function () {
   var config = {};
-  config.plugins = [];
+  
+  config.plugins = [
+    new ngAnnotatePlugin({
+      add: true
+    })
+  ];
 
   config.entry = isTest ? void 0 : {
-    app: './src/app/app.js'
+    app: './src/app/app.module.js'
   };
 
   config.output = isTest ? {} : {

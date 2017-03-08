@@ -1,3 +1,19 @@
+# dependencies
 node_modules
-dist
+
+# production
+build
+
+# misc
+.DS_Store
+.vscode
+.idea
+.env
+npm-debug.log
+
+# lint
+/tslint.json
+
+# test
 coverage
+.coveralls.yml

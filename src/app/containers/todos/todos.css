@@ -1,0 +1,58 @@
+ul.list-group .list-group-item:hover
+{
+    transition: background-color .5s cubic-bezier(.19, 1, .22, 1);
+    background-color: #9cf;
+}
+.button-container .btn
+{
+    width: 30%; 
+    margin-bottom: 15px;
+}
+.checked-list-box .item-checked
+{
+    text-decoration: line-through;
+    background-color: #ccc;
+}
+i.glyphicon
+{
+    margin-right: 10px;
+}
+button
+{
+    outline: none !important;
+}
+.container
+{
+    min-width: 455px;
+}
+span.label-primary
+{
+    margin-right: 10px;
+}
+.header, .form, .todo_filter, .todo_counter
+{
+    text-align: center; 
+}
+.btn-group-justified>.btn, .btn-group-justified>.btn-group 
+{
+    width: fit-content;
+}
+.icon-state, .icon-remove
+{
+    opacity: .7;
+}
+.icon-state:hover, .icon-remove:hover
+{   
+    cursor: pointer;
+    opacity: 1;
+}
+i.icon-remove 
+{
+    display: block;
+    float: right;
+}
+.todo_form
+{
+    margin-bottom: 20px;
+    text-align: center;
+}

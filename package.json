@@ -20,8 +20,7 @@
   },
   "homepage": "https://github.com/eugrdn/angular-todolist-app#readme",
   "dependencies": {
-    "angular": "^1.5.0",
-    "bootstrap": "^3.3.7"
+    "angular": "^1.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.2.1",

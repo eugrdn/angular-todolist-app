@@ -1,1 +1,14 @@
-<h5>add form</h5>
+<form class="todo_form form-inline" ng-submit="$ctrl.submit()">
+	<div class="form-group">
+		<span class="input-group">
+			<span class="input-group-addon"><strong>To do:</strong></span>
+			<input
+				ng-model="$ctrl.todoTitle" 
+				type="text" 
+				class="form-control add-todo-input" 
+				placeholder="Add something.." 
+				required>
+		</span>
+		<button type="submit" class="btn btn-primary btn-outline" id="btn-add">Add</button>
+	</div>
+</form>

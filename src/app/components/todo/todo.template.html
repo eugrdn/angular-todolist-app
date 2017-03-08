@@ -1,1 +1,14 @@
-<span>{{$ctrl.item}}</span>
+<li class="list-group-item" ng-class="$ctrl.isActive() ? 'item-unchecked' : 'item-checked'">
+	<i 
+		class="glyphicon icon-state" 
+		ng-class="$ctrl.isActive() ? 'glyphicon-unchecked': 'glyphicon-check'"
+		ng-click = "$ctrl.handleToggle()"
+		>
+	</i>
+		{{$ctrl.item.title}}
+	<i 
+		ng-if="!$ctrl.isActive()" 
+		class="glyphicon glyphicon-remove icon-remove"
+		ng-click = "$ctrl.handleRemove()">
+	</i>
+</li>

@@ -1,13 +1,23 @@
 <main>
-	<div class="container-fluid">
-		<div class="row">
+	<div class="container container-fluid">
+		<div class="show-grid row">
 			<div class="col-xs-6 col-xs-offset-3 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-				<div class="header">React TODO List App</div>
-				<todo-add-form></todo-add-form>
-				<todo-search-form></todo-search-form>
-				<todo-list todos="$ctrl.todos"></todo-list>
-				<todo-filter></todo-filter>
-				<todo-counter></todo-counter>
+				<div class="header page-header">
+					<h1>Angular TODO List App</h1>
+				</div>
+				<todo-add-form on-submit="$ctrl.addTodo($event)"></todo-add-form>
+				<todo-search-form on-change="$ctrl.searchTodo($event)"></todo-search-form>
+				<ul class="list-group checked-list-box">
+					<todo 
+						ng-repeat="todo in $ctrl.filteredList" 
+						item="todo"
+						on-toggle="$ctrl.toggleTodo($event)"
+						on-remove="$ctrl.removeTodo($event)"
+						>
+					</todo>
+				</ul>
+				<todo-filter on-change = "$ctrl.filterTodo($event)"></todo-filter>
+				<todo-counter counts="$ctrl.leftItems"></todo-counter>
 			</div>
 		</div>
 	</div>

@@ -5,18 +5,21 @@ import './todos.css';
 const TodosComponent = {
 	template,
 	controller: class TodosComponent {
-		constructor() {
+		constructor(TodosService) {
 			'ngInject';
 			this.ID = 0;
 
 			this.searchTemplate = '';
 			this.currentFilter = ''
+			this.todos = [];
 
-			this.todos = [
-				{ id: this.ID++, title: 'Make coffee...', active: true, created_at: 1482002925968 },
-				{ id: this.ID++, title: 'Drink coffee...', active: false, created_at: 1482002969831 },
-				{ id: this.ID++, title: 'Do it again...', active: false, created_at: 1482002976473 }
-			];
+			this.todosService = TodosService;
+		}
+
+		$onInit() {
+			this.todosService.getTodos().then((data) => {
+				this.todos = data;
+			})
 		}
 
 		addTodo({ todo }) {
@@ -46,7 +49,7 @@ const TodosComponent = {
 
 		get filteredList() {
 			let fl;
-
+			console.log(this.todos)
 			switch (this.currentFilter) {
 				case 'all':
 					fl = this.todos.slice();

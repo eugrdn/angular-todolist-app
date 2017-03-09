@@ -10,6 +10,8 @@ import {
 	TodoSearchForm
 } from './components/index';
 
+import TodosService from '../app/containers/todos/todos.service';
+
 export const TodoAppModule = angular
 	.module('todoListApp', [])
 	.component('todo', Todo)
@@ -18,4 +20,5 @@ export const TodoAppModule = angular
 	.component('todoCounter', TodoCounter)
 	.component('todoAddForm', TodoAddForm)
 	.component('todoSearchForm', TodoSearchForm)
+	.service('TodosService', TodosService)
 	.name;

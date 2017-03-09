@@ -7,13 +7,12 @@ const TodosComponent = {
 	controller: class TodosComponent {
 		constructor(TodosService) {
 			'ngInject';
-			this.ID = 0;
+			
+			this.todosService = TodosService;
 
 			this.searchTemplate = '';
 			this.currentFilter = ''
 			this.todos = [];
-
-			this.todosService = TodosService;
 		}
 
 		$onInit() {
@@ -23,7 +22,7 @@ const TodosComponent = {
 		}
 
 		addTodo({ todo }) {
-			this.todos = [...this.todos, { ...todo, active: true, id: this.ID++ }];
+			this.todosService.addTodo(todo);
 		}
 
 		filterTodo({ filter }) {
@@ -31,7 +30,7 @@ const TodosComponent = {
 		}
 
 		removeTodo({ todo }) {
-			this.todos = this.todos.filter(t => t.id !== todo.id);
+			this.todosService.removeTodo(todo);
 		}
 
 		searchTodo({ template }) {
@@ -49,7 +48,7 @@ const TodosComponent = {
 
 		get filteredList() {
 			let fl;
-			console.log(this.todos)
+
 			switch (this.currentFilter) {
 				case 'all':
 					fl = this.todos.slice();

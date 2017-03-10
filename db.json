@@ -1,0 +1,22 @@
+{
+  "todos": [
+    {
+      "title": "Make coffee 😅",
+      "created_at": 1489181986308,
+      "active": false,
+      "id": "HJcQp9lie"
+    },
+    {
+      "title": "Drink coffee 😋",
+      "created_at": 1489181998933,
+      "active": false,
+      "id": "HJw4a9eol"
+    },
+    {
+      "title": "Do it again! 💫",
+      "created_at": 1489182011834,
+      "active": true,
+      "id": "BJVrpqxsx"
+    }
+  ]
+}

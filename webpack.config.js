@@ -10,7 +10,7 @@ var isProd = ENV === 'build';
 
 module.exports = function () {
   var config = {};
-  
+
   config.plugins = [
     new ngAnnotatePlugin({
       add: true
@@ -28,14 +28,11 @@ module.exports = function () {
     chunkFilename: isProd ? '[name].[hash].js' : '[name].bundle.js'
   };
 
-  if (isTest) {
+  if (isProd) {
     config.devtool = 'inline-source-map';
   }
-  else if (isProd) {
+  else if (isTest) {
     config.devtool = 'source-map';
-  }
-  else {
-    config.devtool = 'eval-source-map';
   }
 
   config.module = {

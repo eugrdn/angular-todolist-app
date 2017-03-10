@@ -1,4 +1,8 @@
-import angular from 'angular'
+import angular from 'angular';
+
+import TodosState from '../app/store/todos.state';
+
+import TodosService from '../app/services/todos.service';
 
 import TodosComponent from './containers/todos/todos.component';
 
@@ -10,15 +14,14 @@ import {
 	TodoSearchForm
 } from './components/index';
 
-import TodosService from '../app/containers/todos/todos.service';
-
 export const TodoAppModule = angular
 	.module('todoListApp', [])
-	.component('todo', Todo)
+	.service('TodosState', TodosState)
+	.factory('TodosService', TodosService)
 	.component('todos', TodosComponent)
+	.component('todo', Todo)
 	.component('todoFilter', TodoFilter)
 	.component('todoCounter', TodoCounter)
 	.component('todoAddForm', TodoAddForm)
 	.component('todoSearchForm', TodoSearchForm)
-	.service('TodosService', TodosService)
 	.name;

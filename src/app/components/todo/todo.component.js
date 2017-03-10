@@ -18,17 +18,13 @@ const TodoComponent = {
 
 		handleToggle() {
 			this.onToggle({
-				$event: {
-					todo: this.item
-				}
+				todo: this.item
 			});
 		}
 
 		handleRemove() {
 			this.onRemove({
-				$event: {
-					todo: this.item
-				}
+				todo: this.item
 			});
 		}
 	}

@@ -1,77 +1,71 @@
 import template from './todos.template.html'
 
+import * as Filter from '../../constants/filter.constants';
+
 import './todos.css';
 
 const TodosComponent = {
 	template,
 	controller: class TodosComponent {
-		constructor(TodosService) {
+		constructor(TodosState, TodosService) {
 			'ngInject';
-			
-			this.todosService = TodosService;
 
-			this.searchTemplate = '';
-			this.currentFilter = ''
-			this.todos = [];
+			this.state = TodosState;
+			this.service = TodosService;
 		}
 
 		$onInit() {
-			this.todosService.getTodos().then((data) => {
-				this.todos = data;
-			})
+			this.service.get()
+				.then(todos => {
+					this.state.todos = todos.data;
+				})
+				.catch(err => {
+					this.state.todos = [];
+					console.error(err);
+				})
 		}
 
-		addTodo({ todo }) {
-			this.todosService.addTodo(todo);
+		addTodo(todo) {
+			this.service.add(todo)
+				.then(({ data }) => {
+					this.state.todos = [
+						...this.state.todos,
+						{ ...data }
+					]
+				})
+				.catch(err => console.err(err));
 		}
 
-		filterTodo({ filter }) {
-			this.currentFilter = filter;
+		filterTodo(filter) {
+			this.state.currentFilter = filter;
+
+			if (filter === Filter.ALL) {
+				this.state.searchTemplate = '';
+			}
 		}
 
-		removeTodo({ todo }) {
-			this.todosService.removeTodo(todo);
+		removeTodo(todo) {
+			this.service.remove(todo)
+				.then(() => {
+					this.state.todos = [...this.state.todos.filter(t => t.id !== todo.id)];
+				})
+				.catch(err => console.error(err));
 		}
 
-		searchTodo({ template }) {
+		searchTodo(template) {
 			if (template) {
-				this.searchTemplate = template.replace(/[^(?!' )a-zA-zа-яА-я0-9]+/g, '').replace(/\s{2,}/, ' ').toLowerCase();
-				this.currentFilter = 'find';
+				this.state.searchTemplate = template.replace(/[^(?!' )a-zA-zа-яА-я0-9]+/g, '').replace(/\s{2,}/, ' ').toLowerCase();
 			} else {
-				this.currentFilter = 'all'
+				this.state.searchTemplate = '';
 			}
 		}
 
-		toggleTodo({ todo }) {
-			this.todos = this.todos.map(t => t.id === todo.id ? { ...t, active: !t.active } : t);
-		}
-
-		get filteredList() {
-			let fl;
-
-			switch (this.currentFilter) {
-				case 'all':
-					fl = this.todos.slice();
-					break;
-				case 'active':
-					fl = this.todos.filter(item => item.active);
-					break;
-				case 'completed':
-					fl = this.todos.filter(item => !item.active);
-					break;
-				case 'find':
-					fl = this.todos.filter(elt => elt.title.toLowerCase().match(this.searchTemplate));
-					break;
-				default:
-					fl = this.todos.slice();
-					break;
-			}
-
-			return fl.sort((a, b) => (a.active < b.active) || (a.created_at - b.created_at));
-		}
-
-		get leftItems() {
-			return this.todos.filter(t => t.active).length;
+		toggleTodo(todo) {
+			this.service.toggle(todo)
+				.then(({ data }) => {
+					this.state.todos = this.state.todos.map(t => t.id === data.id ? { ...data } : t);
+				})
+				.catch(err => console.error(err));
 		}
 	}
 };

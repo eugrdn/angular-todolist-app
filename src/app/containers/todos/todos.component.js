@@ -15,7 +15,7 @@ const TodosComponent = {
 		}
 
 		$onInit() {
-			this.service.get()
+			this.service.getAll()
 				.then(todos => {
 					this.state.todos = todos.data;
 				})
@@ -33,7 +33,7 @@ const TodosComponent = {
 						{ ...data }
 					]
 				})
-				.catch(err => console.err(err));
+				.catch(err => console.error(err));
 		}
 
 		filterTodo(filter) {

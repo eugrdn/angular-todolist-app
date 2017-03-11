@@ -7,7 +7,6 @@ export default class TodoStore {
 		this.searchTemplate = '';
 	}
 
-	//change with get q
 	get filteredList() {
 		let fl;
 

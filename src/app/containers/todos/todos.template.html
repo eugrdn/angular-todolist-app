@@ -1,23 +1,12 @@
-<main>
-	<div class="container container-fluid">
-		<div class="show-grid row">
-			<div class="col-xs-6 col-xs-offset-3 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-				<div class="header page-header">
-					<h1>Angular TODO List App</h1>
-				</div>
-				<todo-add-form on-submit="$ctrl.addTodo(todo)"></todo-add-form>
-				<todo-search-form template = "$ctrl.state.searchTemplate"></todo-search-form>
-				<ul class="list-group checked-list-box">
-					<todo
-						ng-repeat="todo in $ctrl.state.filteredList" 
-						item="todo"
-						on-toggle="$ctrl.toggleTodo(todo)"
-						on-remove="$ctrl.removeTodo(todo)">
-					</todo>
-				</ul>
-				<todo-filter on-change = "$ctrl.filterTodo(filter)"></todo-filter>
-				<todo-counter counts="$ctrl.state.leftItems"></todo-counter>
-			</div>
-		</div>
-	</div>
-</main>
+<todo-add-form on-submit="$ctrl.addTodo(todo)"></todo-add-form>
+<todo-search-form template = "$ctrl.state.searchTemplate"></todo-search-form>
+<ul class="list-group checked-list-box">
+	<todo
+		ng-repeat="todo in $ctrl.state.filteredList" 
+		item="todo"
+		on-toggle="$ctrl.toggleTodo(todo)"
+		on-remove="$ctrl.removeTodo(todo)">
+	</todo>
+</ul>
+<todo-filter on-change = "$ctrl.filterTodo(filter)"></todo-filter>
+<todo-counter counts="$ctrl.state.leftItems"></todo-counter>

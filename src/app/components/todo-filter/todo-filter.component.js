@@ -17,22 +17,22 @@ const TodoFilterComponent = {
 			<div class="btn-group btn-group-justified">
 				<button
 					ng-click="$ctrl.getFilter($event)"
-					data-id="${filter.ALL}" 
-					data-switch-toggle="state" 
+					data-id="${filter.ALL}"
+					data-switch-toggle="state"
 					class="btn btn-default btn-outline">
 					All
 				</button>
 				<button
-					ng-click="$ctrl.getFilter($event)" 
-					data-id="${filter.ACTIVE}" 
-					data-switch-toggle="state" 
+					ng-click="$ctrl.getFilter($event)"
+					data-id="${filter.ACTIVE}"
+					data-switch-toggle="state"
 					class="btn btn-default btn-outline">
 					Active
 				</button>
 				<button
-					ng-click="$ctrl.getFilter($event)" 
-					data-id="${filter.COMPLETED}" 
-					data-switch-toggle="state" 
+					ng-click="$ctrl.getFilter($event)"
+					data-id="${filter.COMPLETED}"
+					data-switch-toggle="state"
 					class="btn btn-default btn-outline">
 					Completed
 				</button>

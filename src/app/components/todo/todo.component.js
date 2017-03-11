@@ -8,10 +8,6 @@ const TodoComponent = {
 	},
 	template,
 	controller: class TodoComponent {
-		constructor() {
-			'ngInject';
-		}
-
 		isActive() {
 			return this.item.active;
 		}

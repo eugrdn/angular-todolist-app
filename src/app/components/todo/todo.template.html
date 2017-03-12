@@ -5,8 +5,9 @@
 		ng-click = "$ctrl.handleToggle()"
 		>
 	</i>
-	<a ng-href="#!/todos/{{$ctrl.item.id}}">
 		{{$ctrl.item.title}}
+	<a ng-href="#!/todos/{{$ctrl.item.id}}">
+		<i class="glyphicon glyphicon-edit icon-edit"></i>
 	</a>
 	<i
 		ng-if="!$ctrl.isActive()"

@@ -37,19 +37,24 @@ span.label-primary
 {
     width: fit-content;
 }
-.icon-state, .icon-remove
+.icon-state, .icon-remove, .icon-edit
 {
-    opacity: .7;
+    opacity: .4;
 }
-.icon-state:hover, .icon-remove:hover
+.icon-state:hover, .icon-remove:hover,.icon-edit:hover
 {   
     cursor: pointer;
     opacity: 1;
 }
-i.icon-remove 
+i.icon-remove, 
+i.icon-edit 
 {
     display: block;
     float: right;
+}
+a 
+{ 
+    color: inherit;
 }
 .todo_form
 {

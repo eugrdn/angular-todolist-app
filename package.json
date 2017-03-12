@@ -1,13 +1,15 @@
 {
   "name": "angular-todolist-app",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "1.5.x",
   "main": "index.js",
   "scripts": {
+    "postinstall": "bower install",
     "build": "rimraf dist && webpack --bail --progress --profile",
     "server": "webpack-dev-server --history-api-fallback --inline --progress",
     "start": "npm run server",
-    "api": "json-server --watch db.json --port 3004"
+    "api": "json-server --watch db.json --port 3004",
+    "test": "karma start"
   },
   "repository": {
     "type": "git",

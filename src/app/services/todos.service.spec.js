@@ -1,47 +1,37 @@
 describe('Todos factory', () => {
-	const todos = [
-		{
-			title: 'Make coffee 😅',
-			created_at: 1489181986308,
-			active: false,
-			description: "",
-			id: "HJcQp9lie"
-		},
-		{
-			title: 'Drink coffee 😋',
-			created_at: 1489181998933,
-			active: false,
-			description: "",
-			id: "HJw4a9eol"
-		},
-		{
-			title: 'Do it again! 💫',
-			created_at: 1489182011834,
-			active: true,
-			description: "Do it now!",
-			id: "BJVrpqxsx"
-		}
-	];
+    const URL = 'http://localhost:3004/todos';
+    let todos = ['lel', 'lel', 'lel'];
 
-	let TodosService;
+    let TodosService;
+    let $httpBackend;
 
-	beforeEach(angular.mock.module('todoListApp'));
+    beforeEach(angular.mock.module('todoListApp'));
 
-	beforeEach(inject((_TodosService_) => {
-		TodosService = _TodosService_;
-	}))
+    beforeEach(inject((_TodosService_, _$httpBackend_) => {
+        TodosService = _TodosService_;
+        $httpBackend = _$httpBackend_;
+    }));
 
-	it('should exist', function () {
-		expect(TodosService).toBeDefined();
-	});
+    it('should exist', () => {
+        expect(TodosService).toBeDefined();
+    });
 
-	describe('.getAll()', () => {
-		it('should exist', function () {
-			expect(TodosService.getAll).toBeDefined();
-		});
+    describe('#method getAll()', () => {
 
-		it('should return a hard-coded list of todos', function () {
-			expect(TodosService.getAll()).toEqual(todos);
-		});
-	})
+        it('should exist', () => {
+            expect(TodosService.getAll).toBeDefined();
+        });
+
+        it('should fetch list of todos', () => {
+            $httpBackend.whenGET(URL).respond({
+                todos
+            });
+
+            TodosService.getAll().then(respond => {
+                expect(respond.data.todos).toEqual(todos);
+            });
+
+            $httpBackend.flush();
+        });
+    })
 });

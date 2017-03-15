@@ -4,7 +4,7 @@ import TodosState from '../app/store/todos.state';
 
 import TodosService from '../app/services/todos.service';
 
-import TitleValidate from '../app/directives/titleValid.directive';
+import ccpStop from './directives/ccpStop.directive';
 
 import {
     Todos,
@@ -26,7 +26,7 @@ export const TodoAppModule = angular
     .factory('TodosService', TodosService)
     .component('todos', Todos)
     .component('todo', Todo)
-    .directive('titleValid', () => new TitleValidate())
+    .directive('ccpStop', () => new ccpStop())
     .component('todoDetail', TodoDetail)
     .component('todoFilter', TodoFilter)
     .component('todoCounter', TodoCounter)

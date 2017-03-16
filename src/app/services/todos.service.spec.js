@@ -83,7 +83,7 @@ describe('Todos factory', () => {
         });
     });
 
-    fdescribe('#toggle', () => {
+    xdescribe('#toggle', () => {
         const todo = {title: '', id: 2};
 
         beforeEach(() => {
@@ -105,7 +105,7 @@ describe('Todos factory', () => {
         });
     });
 
-    describe('#remove', () => {
+    xdescribe('#remove', () => {
         const id = 3;
 
         beforeEach(() => {
@@ -129,7 +129,7 @@ describe('Todos factory', () => {
         });
     });
 
-    describe('#update', () => {
+    xdescribe('#update', () => {
         const todo = {title: 'title', id: 1};
 
         beforeEach(() => {

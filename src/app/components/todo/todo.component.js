@@ -8,10 +8,6 @@ const TodoComponent = {
 	},
 	template,
 	controller: class TodoComponent {
-		isActive() {
-			return this.item.active;
-		}
-
 		handleToggle() {
 			this.onToggle({
 				todo: this.item

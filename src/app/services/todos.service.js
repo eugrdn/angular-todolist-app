@@ -1,7 +1,7 @@
 import shortid from 'shortid';
 
 const TodosService = ($http) => {
-    const URL = 'http://localhost:3004/todos';
+    const API = 'http://localhost:3004/todos';
     const FAKE_SERVER_RESPONSE = '505 Internal server error';
 
     return {
@@ -15,27 +15,27 @@ const TodosService = ($http) => {
 
     function getAll() {
         return $http
-            .get(URL)
+            .get(API)
             .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
     }
 
     function getTodo(id) {
         return $http
-            .get(`${URL}/${id}`)
+            .get(`${API}/${id}`)
             .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
     }
 
     function addTodo(todo) {
         return $http
-            .post(URL, {
-                ...todo, description: "", active: true, id: shortid.generate()
+            .post(API, {
+                ...todo, description: '', active: true, id: shortid.generate()
             })
             .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
     }
 
     function toggleTodo({id, title, active, description, created_at}) {
         return $http
-            .put(`${URL}/${id}`, {
+            .put(`${API}/${id}`, {
                 title,
                 created_at,
                 description,
@@ -45,7 +45,7 @@ const TodosService = ($http) => {
     }
 
     function updateTodo({id, title, active, description, created_at}) {
-        return $http.put(`${URL}/${id}`, {
+        return $http.put(`${API}/${id}`, {
             title,
             created_at,
             active,
@@ -56,7 +56,7 @@ const TodosService = ($http) => {
 
     function removeTodo({id}) {
         return $http
-            .delete(`${URL}/${id}`, {id})
+            .delete(`${API}/${id}`, {id})
             .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
     }
 };

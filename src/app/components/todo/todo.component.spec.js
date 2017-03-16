@@ -8,17 +8,10 @@ describe('Todo component tests', () => {
     }));
 
     it('should expose a `todo` object', () => {
-        const bindings = {item: {id: 'HJcQp9lie', title: 'title'}};
+        const bindings = {item: {id: 1, title: ''}};
         const controller = $componentController('todo', null, bindings);
 
         expect(controller.item).toEqual(bindings.item);
-    });
-
-    it('should return a state of `todo` object when `#isActive` calling', () => {
-        const bindings = {item: {id: 'HJcQp9lie', title: 'title', active: false}};
-        const controller = $componentController('todo', null, bindings);
-
-        expect(controller.isActive()).toEqual(controller.item.active);
     });
 
     it('should call the `#onToggle` binding, when #handleToggle calling', () => {

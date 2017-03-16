@@ -1,20 +1,8 @@
 describe('Todos factory', () => {
     const API = 'http://localhost:3004/todos';
-    const todos = [
-        {
-            title: "Make coffee 😅",
-            created_at: 1489181986308,
-            active: false,
-            description: "",
-            id: "HJcQp9lie"
-        },
-        {
-            title: "Drink coffee 😋",
-            created_at: 1489181998933,
-            active: false,
-            description: "",
-            id: "HJw4a9eol"
-        }
+    let todos = [
+        {title: '', id: 1},
+        {title: '', id: 2}
     ];
 
     let TodosService;
@@ -31,148 +19,137 @@ describe('Todos factory', () => {
         expect(TodosService).toBeDefined();
     });
 
-    describe('#method getAll()', () => {
-        let result;
-
-        beforeEach(()=> {
-            result = {};
-
-            spyOn(TodosService, 'getAll').and.callThrough();
-        });
-
-        it('should fetch list of todos', () => {
+    describe('#getAll', () => {
+        beforeEach(() => {
             $httpBackend
                 .whenGET(API)
-                .respond(200, {todos});
+                .respond(todos);
+        });
 
-            TodosService.getAll().then(_respond_ => {
-                result = _respond_.data.todos;
+        it('should fetch list of exist todo`s', () => {
+            TodosService.getAll().then(response => {
+                expect(response.data).toEqual(todos);
             });
 
             $httpBackend.flush();
-
-            expect(TodosService.getAll).toHaveBeenCalled();
-            expect(result).toEqual(todos);
         });
     });
 
-    describe('#method get()', ()=> {
-        let result;
+    describe('#get', () => {
+        const id = 1;
 
-        beforeEach(()=> {
-            result = {};
-
+        beforeEach(() => {
             spyOn(TodosService, 'get').and.callThrough();
         });
 
-        it('should fetch todo with current id', () => {
-            const id = "HJw4a9eol";
-
+        beforeEach(() => {
             $httpBackend
                 .whenGET(`${API}/${id}`)
-                .respond(200, {todos: todos.find(t => t.id === id)});
+                .respond(todos.find(t => t.id === id));
+        });
 
-            TodosService.get(id).then(_respond_ => {
-                result = _respond_.data.todos;
+        it('should fetch todo with current id', () => {
+            TodosService.get(id).then(response => {
+                expect(response.data.id).toEqual(id);
             });
 
             $httpBackend.flush();
 
             expect(TodosService.get).toHaveBeenCalledWith(id);
-            expect(result.id).toEqual(id);
         });
     });
 
-    describe('#method add()', ()=> {
-        let result;
+    describe('#add', () => {
+        const todo = {title: '', id: 3};
 
-        beforeEach(()=> {
-            result = {};
-
+        beforeEach(() => {
             spyOn(TodosService, 'add').and.callThrough();
         });
 
-        it('should add current todo to db', () => {
-            const todo = {
-                title: "Do it again! 💫",
-                created_at: 1489182011834,
-                active: true,
-                description: "Do it now!",
-                id: "BJVrpqxsx"
-            };
-
+        beforeEach(() => {
             $httpBackend
                 .whenPOST(API)
-                .respond(200, {todos: [...todos, todo]});
+                .respond([...todos, todo]);
+        });
 
-            TodosService.add(todo).then(_respond_ => {
-                result = _respond_.data.todos;
+        it('should add current todo to db', () => {
+            TodosService.add(todo).then(response => {
+                expect(response.data.pop()).toEqual(todo);
             });
 
             $httpBackend.flush();
 
             expect(TodosService.add).toHaveBeenCalledWith(todo);
-            expect(result).toEqual([...todos, todo]);
         });
     });
 
-    describe('#method toggle()', ()=> {
-        let result;
+    fdescribe('#toggle', () => {
+        const todo = {title: '', id: 2};
 
-        beforeEach(()=> {
-            result = {};
+        beforeEach(() => {
+            $httpBackend
+                .whenPUT(`${API}/${todo.id}`)
+                .respond();
+        });
 
+        beforeEach(() => {
             spyOn(TodosService, 'toggle').and.callThrough();
         });
 
         it('should update todo `active` state to reverse', () => {
-            const todo = {
-                title: "Drink coffee 😋",
-                created_at: 1489181998933,
-                active: false,
-                description: "",
-                id: "HJw4a9eol"
-            };
-
-            $httpBackend
-                .whenPUT(`${API}/${todo.id}`)
-                .respond(200, {todos: todos.map(t => t.id === todo.id ? {t, active: !t.active} : t)});
-
-            TodosService.get(todo.id).then(_respond_ => {
-                result = _respond_.data.todos;
-            });
+            TodosService.get(todo.id);
 
             $httpBackend.flush();
 
-            expect(TodosService.get).toHaveBeenCalledWith(todo);
-            expect(result).toEqual([...todos.map(t => t.id === todo.id ? {t, active: !t.active} : t)]);
+            expect(TodosService.get).toHaveBeenCalledWith(todo.id);
         });
     });
 
-    fdescribe('#method remove()', ()=> {
-        let result;
+    describe('#remove', () => {
+        const id = 3;
 
-        beforeEach(()=> {
-            result = {};
-
+        beforeEach(() => {
             spyOn(TodosService, 'remove').and.callThrough();
         });
 
-        it('should remove todo with current id', () => {
-            const id = "HJw4a9eol";
-
+        beforeEach(() => {
             $httpBackend
                 .whenDELETE(`${API}/${id}`)
-                .respond(200, {todos: todos.filter(t => t.id !== id)});
+                .respond(todos.filter(t => t.id !== id));
+        });
 
-            TodosService.get(id).then(_respond_ => {
-                result = _respond_.data.todos;
+        it('should remove todo with current id', () => {
+            TodosService.get(id).then(response => {
+                expect(response.data.find(t => t.id === id)).toBeUndefined();
             });
 
             $httpBackend.flush();
 
             expect(TodosService.remove).toHaveBeenCalledWith(id);
-            expect(result).toEqual(todos.filter(t => t.id !== id));
+        });
+    });
+
+    describe('#update', () => {
+        const todo = {title: 'title', id: 1};
+
+        beforeEach(() => {
+            spyOn(TodosService, 'update').and.callThrough();
+        });
+
+        beforeEach(() => {
+            $httpBackend
+                .whenPUT(`${API}/${todo.id}`)
+                .respond(todos.map(t => t.id === todo.id ? todo : t));
+        });
+
+        it('should update todo with current id', () => {
+            TodosService.get(todo.id).then(response => {
+                expect(response.data).toEqual(todo);
+            });
+
+            $httpBackend.flush();
+
+            expect(TodosService.update).toHaveBeenCalledWith(todo.id);
         });
     });
 });

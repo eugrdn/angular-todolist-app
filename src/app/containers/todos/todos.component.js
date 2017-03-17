@@ -4,70 +4,88 @@ import * as Filter from '../../constants/filter.constants';
 
 import './todos.css';
 
-const TodosComponent = {
-    template,
-    controller: class TodosComponent {
-        constructor(TodosState, TodosService) {
-            'ngInject';
+var TodosComponent = {
+    template: template,
+    controller: TodosComponentController
+};
 
-            this.state = TodosState;
-            this.service = TodosService;
-        }
+function TodosComponentController(TodosState, TodosService) {
+    debugger;
+    'ngInject';
+    this.service = TodosService;
+    this.state = TodosState;
+}
 
-        $onInit() {
-            this.service.getAll()
-                .then(todos => {
-                    this.state.todos = todos.data;
-                })
-                .catch(err => {
-                    this.state.todos = [];
-                    console.error(err);
-                })
-        }
+TodosComponentController.prototype.$onInit = function () {
+    var ctrl = this;
 
-        addTodo(todo) {
-            this.service.add(todo)
-                .then(({data}) => {
-                    this.state.todos = [
-                        ...this.state.todos,
-                        {...data}
-                    ]
-                })
-                .catch(err => console.error(err));
-        }
+    ctrl.service.getAll()
+        .then(function (todos) {
+            ctrl.state.todos = todos.data;
+        })
+        .catch(function (err) {
+            ctrl.state.todos = [];
+            console.error(err);
+        });
+};
 
-        filterTodo(filter) {
-            this.state.currentFilter = filter;
+TodosComponentController.prototype.addTodo = function (todo) {
+    var ctrl = this;
 
-            if (filter === Filter.ALL) {
-                this.state.searchTemplate = '';
-            }
-        }
+    ctrl.service.add(todo)
+        .then(function (res) {
+            ctrl.state.todos = ctrl.state.todos.concat([res.data])
+        })
+        .catch(function (err) {
+            console.error(err)
+        });
+};
 
-        removeTodo(todo) {
-            this.service.remove(todo)
-                .then(() => {
-                    this.state.todos = [...this.state.todos.filter(t => t.id !== todo.id)];
-                })
-                .catch(err => console.error(err));
-        }
+TodosComponentController.prototype.filterTodo = function (filter) {
+    this.state.currentFilter = filter;
 
-        searchTodo(template) {
-            if (template) {
-                this.state.searchTemplate = template.replace(/[^(?!' )a-zA-zа-яА-я0-9]+/g, '').replace(/\s{2,}/, ' ').toLowerCase();
-            } else {
-                this.state.searchTemplate = '';
-            }
-        }
-
-        toggleTodo(todo) {
-            this.service.toggle(todo)
-                .then(() => {
-                    this.state.todos = this.state.todos.map(t => t.id === todo.id ? {...t, active: !t.active} : t);
-                })
-                .catch(err => console.error(err));
-        }
+    if (filter === Filter.ALL) {
+        this.state.searchTemplate = '';
     }
+};
+
+TodosComponentController.prototype.removeTodo = function (todo) {
+    var ctrl = this;
+
+    ctrl.service.remove(todo)
+        .then(function () {
+            ctrl.state.todos = ctrl.state.todos.filter(function (t) {
+                return t.id !== todo.id;
+            });
+        })
+        .catch(function (err) {
+            console.error(err)
+        });
+};
+
+TodosComponentController.prototype.searchTodo = function (template) {
+    if (template) {
+        this.state.searchTemplate = template
+            .replace(/[^(?!' )a-zA-zа-яА-я0-9]+/g, '')
+            .replace(/\s{2,}/, ' ')
+            .toLowerCase();
+    } else {
+        this.state.searchTemplate = '';
+    }
+};
+
+TodosComponentController.prototype.toggleTodo = function (todo) {
+    var ctrl = this;
+
+    ctrl.service.toggle(todo)
+        .then(function () {
+            ctrl.state.todos = ctrl.state.todos.map(function (t) {
+                return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
+            });
+        })
+        .catch(function (err) {
+            console.error(err)
+        });
 };
 
 export default TodosComponent;

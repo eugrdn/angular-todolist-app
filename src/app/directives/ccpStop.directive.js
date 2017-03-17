@@ -1,11 +1,11 @@
-export default class ccpStop {
-    constructor() {
-        this.restrict = 'A';
-    }
-
-    link($scope, $element) {
-        $element.on('cut copy paste', (e)=> {
-            e.preventDefault();
-        });
-    }
-};
+function ccpStop() {
+    return {
+        restrict: 'A',
+        link: function ($scope, $element) {
+            $element.on('cut copy paste', function (e) {
+                e.preventDefault();
+            });
+        }
+    };
+}
+export default ccpStop;

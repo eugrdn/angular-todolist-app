@@ -1,12 +1,12 @@
 'use strict';
 
-var TodosConfig = require('./app.config');
+import TodosConfig from './app.config';
 
-var TodosState  = require('../app/store/todos.state');
+import TodosState from '../app/store/todos.state';
 
-var TodosService  = require( '../app/services/todos.service');
+import TodosService from '../app/services/todos.service';
 
-var ccpStop  = require( './directives/ccpStop.directive');
+import ccpStop from './directives/ccpStop.directive';
 
 import {
     Todos,
@@ -21,17 +21,16 @@ import {
     TodoSearchForm
 } from './components/index';
 
-export const TodoAppModule = angular
+angular
     .module('todoListApp', ['ngRoute'])
     .config(TodosConfig)
     .service('TodosState', TodosState)
     .factory('TodosService', TodosService)
     .component('todos', Todos)
     .component('todo', Todo)
-    .directive('ccpStop', () => new ccpStop())
+    .directive('ccpStop', ccpStop)
     .component('todoDetail', TodoDetail)
     .component('todoFilter', TodoFilter)
     .component('todoCounter', TodoCounter)
     .component('todoAddForm', TodoAddForm)
-    .component('todoSearchForm', TodoSearchForm)
-    .name;
+    .component('todoSearchForm', TodoSearchForm);

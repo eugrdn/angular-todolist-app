@@ -1,6 +1,8 @@
 'use strict';
 
 describe('Todo counter tests', function () {
+    var $componentController;
+
     beforeEach(angular.mock.module('todoListApp'));
 
     beforeEach(inject(function (_$componentController_) {

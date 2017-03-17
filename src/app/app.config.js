@@ -1,4 +1,4 @@
-const TodosConfig = ($routeProvider, $locationProvider) => {
+function TodosConfig ($routeProvider, $locationProvider)  {
 	'ngInject';
 
 	$locationProvider.hashPrefix('!');
@@ -11,6 +11,6 @@ const TodosConfig = ($routeProvider, $locationProvider) => {
 			template: '<todo-detail></todo-detail>'
 		}).
 		otherwise('/todos');
-};
+}
 
 export default TodosConfig;

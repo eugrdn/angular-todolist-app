@@ -1,8 +1,9 @@
 import shortid from 'shortid';
 
-const TodosService = ($http) => {
-    const API = 'http://localhost:3004/todos';
-    const FAKE_SERVER_RESPONSE = '505 Internal server error';
+function TodosService($http) {
+    console.log(this);
+    var API = 'http://localhost:3004/todos';
+    var FAKE_SERVER_RESPONSE = '505 Internal server error';
 
     return {
         getAll: getAll,
@@ -16,49 +17,64 @@ const TodosService = ($http) => {
     function getAll() {
         return $http
             .get(API)
-            .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
+            .catch(function () {
+                Promise.reject(FAKE_SERVER_RESPONSE)
+            });
     }
 
     function getTodo(id) {
         return $http
-            .get(`${API}/${id}`)
-            .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
+            .get(API + '/' + id)
+            .catch(function () {
+                Promise.reject(FAKE_SERVER_RESPONSE)
+            });
     }
 
     function addTodo(todo) {
         return $http
-            .post(API, {
-                ...todo, description: '', active: true, id: shortid.generate()
-            })
-            .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
+            .post(API, Object.assign({}, todo, {
+                description: '',
+                active: true,
+                id: shortid.generate()
+            }))
+            .catch(function () {
+                Promise.reject(FAKE_SERVER_RESPONSE)
+            });
     }
 
-    function toggleTodo({id, title, active, description, created_at}) {
+    function toggleTodo(todo) {
         return $http
-            .put(`${API}/${id}`, {
-                title,
-                created_at,
-                description,
-                active: !active
+            .put(API + '/' + id, {
+                title: todo.title,
+                created_at: todo.created_at,
+                description: todo.description,
+                active: !todo.active
             })
-            .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
+            .catch(function () {
+                Promise.reject(FAKE_SERVER_RESPONSE)
+            });
     }
 
-    function updateTodo({id, title, active, description, created_at}) {
-        return $http.put(`${API}/${id}`, {
-            title,
-            created_at,
-            active,
-            description
-        })
-            .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
-    }
-
-    function removeTodo({id}) {
+    function updateTodo(todo) {
         return $http
-            .delete(`${API}/${id}`, {id})
-            .catch(err => Promise.reject(FAKE_SERVER_RESPONSE));
+            .put(API + '/' + id, {
+                title: todo.title,
+                created_at: todo.created_at,
+                description: todo.description,
+                active: todo.active
+            })
+            .catch(function () {
+                Promise.reject(FAKE_SERVER_RESPONSE)
+            });
     }
-};
+
+    function removeTodo(todo) {
+        return $http
+            .delete(API + '/' + id, {id: todo.id})
+            .catch(function () {
+                Promise.reject(FAKE_SERVER_RESPONSE)
+            });
+    }
+}
 
 export default TodosService;

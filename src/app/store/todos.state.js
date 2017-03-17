@@ -1,4 +1,4 @@
-var Filter = require('../constants/filter.constants');
+import Filter from '../constants/filter.constants';
 
 function TodoStore() {
     this.todos = [];
@@ -7,30 +7,31 @@ function TodoStore() {
 }
 
 TodoStore.prototype.filteredList = function () {
+    var self = this;
     var fl;
 
-    switch (this.currentFilter) {
+    switch (self.currentFilter) {
         case Filter.ALL:
-            fl = this.todos.slice();
+            fl = self.todos.slice();
             break;
         case Filter.ACTIVE:
-            fl = this.todos.filter(function (item) {
+            fl = self.todos.filter(function (item) {
                 return item.active;
             });
             break;
         case Filter.COMPLETED:
-            fl = this.todos.filter(function (item) {
+            fl = self.todos.filter(function (item) {
                 return !item.active
             });
             break;
         default:
-            fl = this.todos.slice();
+            fl = self.todos.slice();
             break;
     }
 
     return fl
         .filter(function (t) {
-            return t.title.toLowerCase().match(this.searchTemplate)
+            return t.title.toLowerCase().match(self.searchTemplate)
         })
         .sort(function (a, b) {
             return (a.active < b.active) || (a.created_at - b.created_at)

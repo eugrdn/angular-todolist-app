@@ -6,7 +6,6 @@ const TodoFilterComponent = {
     },
     controller: function TodoFilterComponentController() {
         this.getFilter = function (event) {
-            console.log(event)
             this.onChange({
                 filter: event.target.dataset.id
             })

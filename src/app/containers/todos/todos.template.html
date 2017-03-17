@@ -2,11 +2,11 @@
 <todo-search-form template = "$ctrl.state.searchTemplate"></todo-search-form>
 <ul class="list-group checked-list-box">
 	<todo
-		ng-repeat="todo in $ctrl.state.filteredList"
+		ng-repeat="todo in $ctrl.state.filteredList()"
 		item="todo"
 		on-toggle="$ctrl.toggleTodo(todo)"
 		on-remove="$ctrl.removeTodo(todo)">
 	</todo>
 </ul>
 <todo-filter on-change = "$ctrl.filterTodo(filter)"></todo-filter>
-<todo-counter counts="$ctrl.state.leftItems"></todo-counter>
+<todo-counter counts="$ctrl.state.leftItems()"></todo-counter>

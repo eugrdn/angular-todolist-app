@@ -1,33 +1,33 @@
-describe('Todos factory', () => {
-    const API = 'http://localhost:3004/todos';
-    let todos = [
+describe('Todos factory', function () {
+    var API = 'http://localhost:3004/todos';
+    var todos = [
         {title: '', id: 1},
         {title: '', id: 2}
     ];
 
-    let TodosService;
-    let $httpBackend;
+    var TodosService;
+    var $httpBackend;
 
     beforeEach(angular.mock.module('todoListApp'));
 
-    beforeEach(inject((_TodosService_, _$httpBackend_) => {
+    beforeEach(inject(function (_TodosService_, _$httpBackend_) {
         TodosService = _TodosService_;
         $httpBackend = _$httpBackend_;
     }));
 
-    it('should exist', () => {
+    it('should exist', function () {
         expect(TodosService).toBeDefined();
     });
 
-    describe('#getAll', () => {
-        beforeEach(() => {
+    describe('#getAll', function () {
+        beforeEach(function () {
             $httpBackend
                 .whenGET(API)
                 .respond(todos);
         });
 
-        it('should fetch list of exist todo`s', () => {
-            TodosService.getAll().then(response => {
+        it('should fetch list of exist todo`s', function () {
+            TodosService.getAll().then(function (response) {
                 expect(response.data).toEqual(todos);
             });
 
@@ -35,21 +35,23 @@ describe('Todos factory', () => {
         });
     });
 
-    describe('#get', () => {
-        const id = 1;
+    describe('#get', function () {
+        var id = 1;
 
-        beforeEach(() => {
+        beforeEach(function () {
             spyOn(TodosService, 'get').and.callThrough();
         });
 
-        beforeEach(() => {
+        beforeEach(function () {
             $httpBackend
-                .whenGET(`${API}/${id}`)
-                .respond(todos.find(t => t.id === id));
+                .whenGET(API + '/' + id)
+                .respond(todos.find(function (t) {
+                    return t.id === id;
+                }));
         });
 
-        it('should fetch todo with current id', () => {
-            TodosService.get(id).then(response => {
+        it('should fetch todo with current id', function () {
+            TodosService.get(id).then(function (response) {
                 expect(response.data.id).toEqual(id);
             });
 
@@ -59,21 +61,20 @@ describe('Todos factory', () => {
         });
     });
 
-    describe('#add', () => {
-        const todo = {title: '', id: 3};
+    describe('#add', function () {
+        var todo = {title: '', id: 3};
 
-        beforeEach(() => {
+        beforeEach(function () {
             spyOn(TodosService, 'add').and.callThrough();
         });
-
-        beforeEach(() => {
+        beforeEach(function () {
             $httpBackend
                 .whenPOST(API)
-                .respond([...todos, todo]);
+                .respond(todos.concat(todo));
         });
 
-        it('should add current todo to db', () => {
-            TodosService.add(todo).then(response => {
+        it('should add current todo to db', function () {
+            TodosService.add(todo).then(function (response) {
                 expect(response.data.pop()).toEqual(todo);
             });
 
@@ -83,20 +84,20 @@ describe('Todos factory', () => {
         });
     });
 
-    xdescribe('#toggle', () => {
-        const todo = {title: '', id: 2};
+    xdescribe('#toggle', function () {
+        var todo = {title: '', id: 2};
 
-        beforeEach(() => {
+        beforeEach(function () {
             $httpBackend
-                .whenPUT(`${API}/${todo.id}`)
+                .whenPUT(API + '/' + todo.id)
                 .respond();
         });
 
-        beforeEach(() => {
+        beforeEach(function () {
             spyOn(TodosService, 'toggle').and.callThrough();
         });
 
-        it('should update todo `active` state to reverse', () => {
+        it('should update todo `active` state to reverse', function () {
             TodosService.get(todo.id);
 
             $httpBackend.flush();
@@ -105,22 +106,26 @@ describe('Todos factory', () => {
         });
     });
 
-    xdescribe('#remove', () => {
-        const id = 3;
+    xdescribe('#remove', function () {
+        var id = 3;
 
-        beforeEach(() => {
+        beforeEach(function () {
             spyOn(TodosService, 'remove').and.callThrough();
         });
 
-        beforeEach(() => {
+        beforeEach(function () {
             $httpBackend
-                .whenDELETE(`${API}/${id}`)
-                .respond(todos.filter(t => t.id !== id));
+                .when(API + '/' + id)
+                .respond(todos.filter(function (t) {
+                    return t.id !== id;
+                }));
         });
 
-        it('should remove todo with current id', () => {
-            TodosService.get(id).then(response => {
-                expect(response.data.find(t => t.id === id)).toBeUndefined();
+        it('should remove todo with current id', function () {
+            TodosService.get(id).then(function (response) {
+                expect(response.data.find(function (t) {
+                    return t.id === id;
+                })).toBeUndefined();
             });
 
             $httpBackend.flush();
@@ -129,21 +134,23 @@ describe('Todos factory', () => {
         });
     });
 
-    xdescribe('#update', () => {
-        const todo = {title: 'title', id: 1};
+    xdescribe('#update', function () {
+        var todo = {title: 'title', id: 1};
 
-        beforeEach(() => {
+        beforeEach(function () {
             spyOn(TodosService, 'update').and.callThrough();
         });
 
-        beforeEach(() => {
+        beforeEach(function () {
             $httpBackend
-                .whenPUT(`${API}/${todo.id}`)
-                .respond(todos.map(t => t.id === todo.id ? todo : t));
+                .whenPUT(API + '/' + todo.id)
+                .respond(todos.map(function (t) {
+                    return t.id === todo.id ? todo : t;
+                }));
         });
 
-        it('should update todo with current id', () => {
-            TodosService.get(todo.id).then(response => {
+        it('should update todo with current id', function () {
+            TodosService.get(todo.id).then(function (response) {
                 expect(response.data).toEqual(todo);
             });
 

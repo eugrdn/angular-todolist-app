@@ -42,7 +42,7 @@ TodoDetailComponentController.prototype.submit = function () {
         })
         .catch(function (err) {
             alert(TASK_SAVE_INFORMATION());
-            console.error(err)
+            console.error(err);
         });
 };
 

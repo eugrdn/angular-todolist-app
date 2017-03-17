@@ -21,7 +21,7 @@ import {
     TodoSearchForm
 } from './components/index';
 
-angular
+export var TodoAppModule = angular
     .module('todoListApp', ['ngRoute'])
     .config(TodosConfig)
     .service('TodosState', TodosState)
@@ -33,4 +33,5 @@ angular
     .component('todoFilter', TodoFilter)
     .component('todoCounter', TodoCounter)
     .component('todoAddForm', TodoAddForm)
-    .component('todoSearchForm', TodoSearchForm);
+    .component('todoSearchForm', TodoSearchForm)
+    .name;

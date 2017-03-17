@@ -1,4 +1,4 @@
-import Filter from '../constants/filter.constants';
+import * as Filter from '../constants/filter.constants';
 
 function TodoStore() {
     this.todos = [];
@@ -21,7 +21,7 @@ TodoStore.prototype.filteredList = function () {
             break;
         case Filter.COMPLETED:
             fl = self.todos.filter(function (item) {
-                return !item.active
+                return !item.active;
             });
             break;
         default:
@@ -31,17 +31,19 @@ TodoStore.prototype.filteredList = function () {
 
     return fl
         .filter(function (t) {
-            return t.title.toLowerCase().match(self.searchTemplate)
+            return t.title.toLowerCase().match(self.searchTemplate);
         })
         .sort(function (a, b) {
-            return (a.active < b.active) || (a.created_at - b.created_at)
+            return (a.active < b.active) || (a.created_at - b.created_at);
         });
 };
 
 TodoStore.prototype.leftItems = function () {
     return this.todos
         .filter(function (t) {
-            return t.active
+            return t.active;
         })
         .length;
 };
+
+export default TodoStore;

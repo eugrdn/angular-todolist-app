@@ -1,7 +1,6 @@
 import shortid from 'shortid';
 
 function TodosService($http) {
-    console.log(this);
     var API = 'http://localhost:3004/todos';
     var FAKE_SERVER_RESPONSE = '505 Internal server error';
 
@@ -44,7 +43,7 @@ function TodosService($http) {
 
     function toggleTodo(todo) {
         return $http
-            .put(API + '/' + id, {
+            .put(API + '/' + todo.id, {
                 title: todo.title,
                 created_at: todo.created_at,
                 description: todo.description,
@@ -57,7 +56,7 @@ function TodosService($http) {
 
     function updateTodo(todo) {
         return $http
-            .put(API + '/' + id, {
+            .put(API + '/' + todo.id, {
                 title: todo.title,
                 created_at: todo.created_at,
                 description: todo.description,
@@ -70,7 +69,7 @@ function TodosService($http) {
 
     function removeTodo(todo) {
         return $http
-            .delete(API + '/' + id, {id: todo.id})
+            .delete(API + '/' + todo.id, {id: todo.id})
             .catch(function () {
                 Promise.reject(FAKE_SERVER_RESPONSE)
             });

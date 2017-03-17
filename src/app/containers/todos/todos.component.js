@@ -10,7 +10,6 @@ var TodosComponent = {
 };
 
 function TodosComponentController(TodosState, TodosService) {
-    debugger;
     'ngInject';
     this.service = TodosService;
     this.state = TodosState;
@@ -34,10 +33,10 @@ TodosComponentController.prototype.addTodo = function (todo) {
 
     ctrl.service.add(todo)
         .then(function (res) {
-            ctrl.state.todos = ctrl.state.todos.concat([res.data])
+            ctrl.state.todos = ctrl.state.todos.concat(res.data)
         })
         .catch(function (err) {
-            console.error(err)
+            console.error(err);
         });
 };
 
@@ -59,7 +58,7 @@ TodosComponentController.prototype.removeTodo = function (todo) {
             });
         })
         .catch(function (err) {
-            console.error(err)
+            console.error(err);
         });
 };
 
@@ -84,7 +83,7 @@ TodosComponentController.prototype.toggleTodo = function (todo) {
             });
         })
         .catch(function (err) {
-            console.error(err)
+            console.error(err);
         });
 };
 

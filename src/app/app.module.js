@@ -1,10 +1,12 @@
-import TodosConfig from './app.config';
+'use strict';
 
-import TodosState from '../app/store/todos.state';
+var TodosConfig = require('./app.config');
 
-import TodosService from '../app/services/todos.service';
+var TodosState  = require('../app/store/todos.state');
 
-import ccpStop from './directives/ccpStop.directive';
+var TodosService  = require( '../app/services/todos.service');
+
+var ccpStop  = require( './directives/ccpStop.directive');
 
 import {
     Todos,

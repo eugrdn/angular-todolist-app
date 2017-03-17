@@ -1,13 +1,15 @@
-describe('Todo counter tests', ()=> {
+'use strict';
+
+describe('Todo counter tests', function () {
     beforeEach(angular.mock.module('todoListApp'));
 
-    beforeEach(inject(_$componentController_ => {
+    beforeEach(inject(function (_$componentController_) {
         $componentController = _$componentController_;
     }));
 
-    it('should return a known number of active todos', () => {
-        const bindings = {counts: 2};
-        const controller = $componentController('todoCounter', null, bindings);
+    it('should return a known number of active todos', function () {
+        var bindings = {counts: 2};
+        var controller = $componentController('todoCounter', null, bindings);
 
         expect(controller.counts).toEqual(bindings.counts);
     });

@@ -38,7 +38,7 @@ TodoStore.prototype.filteredList = function () {
         });
 };
 
-TodoStore.prototype.leftItems = function () {
+TodoStore.prototype.getLeftItems = function () {
     return this.todos
         .filter(function (t) {
             return t.active;

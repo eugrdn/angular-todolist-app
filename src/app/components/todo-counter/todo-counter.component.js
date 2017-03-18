@@ -1,6 +1,6 @@
 import template from './todo-counter.template.html';
 
-const TodoCounterComponent = {
+var TodoCounterComponent = {
     bindings: {
         counts: '<'
     },

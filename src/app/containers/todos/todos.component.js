@@ -1,6 +1,6 @@
-import template from './todos.template.html'
-
 import * as Filter from '../../constants/filter.constants';
+
+import template from './todos.template.html'
 
 import './todos.css';
 

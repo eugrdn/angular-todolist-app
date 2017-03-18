@@ -1,6 +1,6 @@
 import * as Filter from '../../constants/filter.constants';
 
-const TodoFilterComponent = {
+var TodoFilterComponent = {
     bindings: {
         onChange: '&'
     },

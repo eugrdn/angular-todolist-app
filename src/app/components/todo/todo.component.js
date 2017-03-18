@@ -7,22 +7,19 @@ var TodoComponent = {
         onRemove: '&'
     },
     template: template,
-    controller: TodoComponentController
-};
+    controller: function TodoComponentController() {
+        this.handleToggle = function () {
+            this.onToggle({
+                todo: this.item
+            });
+        };
+        this.handleRemove = function () {
+            this.onRemove({
+                todo: this.item
+            });
+        };
 
-function TodoComponentController() {
-}
-
-TodoComponentController.prototype.handleToggle = function () {
-    this.onToggle({
-        todo: this.item
-    });
-};
-
-TodoComponentController.prototype.handleRemove = function () {
-    this.onRemove({
-        todo: this.item
-    });
+    }
 };
 
 export default TodoComponent;

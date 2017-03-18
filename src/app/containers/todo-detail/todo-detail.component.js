@@ -8,43 +8,37 @@ function TASK_SAVE_INFORMATION(title) {
 
 var TodoDetailComponent = {
     template: template,
-    controller: TodoDetailComponentController
+    controller: function TodoDetailComponentController($routeParams, TodosState, TodosService) {
+        'ngInject';
+        var ctrl = this;
+
+        ctrl.state = TodosState;
+        ctrl.service = TodosService;
+        ctrl.todo = {id: $routeParams.todoId};
+
+        ctrl.$onInit = function () {
+            ctrl.service.get(ctrl.todo.id)
+                .then(function (todo) {
+                    ctrl.todo = todo.data;
+                })
+                .catch(function (err) {
+                    ctrl.todo = {};
+                    console.error(err);
+                })
+        };
+
+        ctrl.submit = function () {
+            ctrl.service.update(ctrl.todo)
+                .then(function (res) {
+                    ctrl.todo = res.data;
+                    alert(TASK_SAVE_INFORMATION(res.data.title));
+                })
+                .catch(function (err) {
+                    alert(TASK_SAVE_INFORMATION());
+                    console.error(err);
+                });
+        };
+    }
 };
-
-function TodoDetailComponentController($routeParams, TodosState, TodosService) {
-    'ngInject';
-
-    this.state = TodosState;
-    this.service = TodosService;
-    this.todo = {id: $routeParams.todoId}
-}
-
-TodoDetailComponentController.prototype.$onInit = function () {
-    var ctrl = this;
-
-    ctrl.service.get(ctrl.todo.id)
-        .then(function (todo) {
-            ctrl.todo = todo.data;
-        })
-        .catch(function (err) {
-            ctrl.todo = {};
-            console.error(err);
-        })
-};
-
-TodoDetailComponentController.prototype.submit = function () {
-    var ctrl = this;
-
-    ctrl.service.update(ctrl.todo)
-        .then(function (res) {
-            ctrl.todo = res.data;
-            alert(TASK_SAVE_INFORMATION(res.data.title));
-        })
-        .catch(function (err) {
-            alert(TASK_SAVE_INFORMATION());
-            console.error(err);
-        });
-};
-
 
 export default TodoDetailComponent;

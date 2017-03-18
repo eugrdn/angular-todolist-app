@@ -6,7 +6,7 @@ function TodoStore() {
     this.searchTemplate = '';
 }
 
-TodoStore.prototype.filteredList = function () {
+TodoStore.prototype.getFilteredList = function () {
     var self = this;
     var fl;
 
@@ -44,6 +44,14 @@ TodoStore.prototype.getLeftItems = function () {
             return t.active;
         })
         .length;
+};
+
+TodoStore.prototype.setFilter = function (filter) {
+    this.currentFilter = filter;
+
+    if (filter === Filter.ALL) {
+        this.searchTemplate = '';
+    }
 };
 
 export default TodoStore;

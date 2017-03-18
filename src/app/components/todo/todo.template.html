@@ -9,7 +9,7 @@
 		<i class="glyphicon glyphicon-edit icon-edit"></i>
 	</a>
 	<i
-		ng-if="!$ctrl.item.active"
+		ng-hide="$ctrl.item.active"
 		class="glyphicon glyphicon-remove icon-remove"
 		ng-click = "$ctrl.handleRemove()">
 	</i>

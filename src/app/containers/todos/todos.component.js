@@ -1,5 +1,3 @@
-import * as Filter from '../../constants/filter.constants';
-
 import template from './todos.template.html'
 
 import './todos.css';
@@ -11,6 +9,7 @@ var TodosComponent = {
 
 function TodosComponentController(TodosState, TodosService) {
     'ngInject';
+
     this.service = TodosService;
     this.state = TodosState;
 }
@@ -40,14 +39,6 @@ TodosComponentController.prototype.addTodo = function (todo) {
         });
 };
 
-TodosComponentController.prototype.filterTodo = function (filter) {
-    this.state.currentFilter = filter;
-
-    if (filter === Filter.ALL) {
-        this.state.searchTemplate = '';
-    }
-};
-
 TodosComponentController.prototype.removeTodo = function (todo) {
     var ctrl = this;
 
@@ -60,17 +51,6 @@ TodosComponentController.prototype.removeTodo = function (todo) {
         .catch(function (err) {
             console.error(err);
         });
-};
-
-TodosComponentController.prototype.searchTodo = function (template) {
-    if (template) {
-        this.state.searchTemplate = template
-            .replace(/[^(?!' )a-zA-zа-яА-я0-9]+/g, '')
-            .replace(/\s{2,}/, ' ')
-            .toLowerCase();
-    } else {
-        this.state.searchTemplate = '';
-    }
 };
 
 TodosComponentController.prototype.toggleTodo = function (todo) {

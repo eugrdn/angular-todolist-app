@@ -8,11 +8,10 @@ function TASK_SAVE_INFORMATION(title) {
 
 var TodoDetailComponent = {
     template: template,
-    controller: function TodoDetailComponentController($routeParams, TodosState, TodosService) {
+    controller: function TodoDetailComponentController($routeParams, TodosService) {
         'ngInject';
         var ctrl = this;
 
-        ctrl.state = TodosState;
         ctrl.service = TodosService;
         ctrl.todo = {id: $routeParams.todoId};
 

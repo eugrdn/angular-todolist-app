@@ -84,30 +84,33 @@ describe('Todos factory', function () {
         });
     });
 
-    xdescribe('#toggle', function () {
-        var todo = {title: '', id: 2};
-
-        beforeEach(function () {
-            $httpBackend
-                .whenPUT(API + '/' + todo.id)
-                .respond();
-        });
+    describe('#toggle', function () {
+        var todo = {title: '', id: 2, active: true};
 
         beforeEach(function () {
             spyOn(TodosService, 'toggle').and.callThrough();
         });
 
+        beforeEach(function () {
+            $httpBackend
+                .whenPUT(API + '/' + todo.id)
+                .respond(Object.assign({}, todo));
+        });
+
         it('should update todo `active` state to reverse', function () {
-            TodosService.get(todo.id);
+            TodosService.toggle(todo)
+                .then(function (response) {
+                    expect(response.data.active).toEqual(todo.active)
+                });
 
             $httpBackend.flush();
 
-            expect(TodosService.get).toHaveBeenCalledWith(todo.id);
+            expect(TodosService.toggle).toHaveBeenCalledWith(todo);
         });
     });
 
-    xdescribe('#remove', function () {
-        var id = 3;
+    describe('#remove', function () {
+        var todo = {title: '', id: 2};
 
         beforeEach(function () {
             spyOn(TodosService, 'remove').and.callThrough();
@@ -115,26 +118,27 @@ describe('Todos factory', function () {
 
         beforeEach(function () {
             $httpBackend
-                .when(API + '/' + id)
+                .whenDELETE(API + '/' + todo.id)
                 .respond(todos.filter(function (t) {
-                    return t.id !== id;
+                    return t.id !== todo.id;
                 }));
         });
 
         it('should remove todo with current id', function () {
-            TodosService.get(id).then(function (response) {
-                expect(response.data.find(function (t) {
-                    return t.id === id;
-                })).toBeUndefined();
-            });
+            TodosService.remove(todo)
+                .then(function (response) {
+                    expect(response.data.find(function (t) {
+                        return t.id === todo.id;
+                    })).toBeUndefined();
+                });
 
             $httpBackend.flush();
 
-            expect(TodosService.remove).toHaveBeenCalledWith(id);
+            expect(TodosService.remove).toHaveBeenCalledWith(todo);
         });
     });
 
-    xdescribe('#update', function () {
+    describe('#update', function () {
         var todo = {title: 'title', id: 1};
 
         beforeEach(function () {
@@ -144,19 +148,19 @@ describe('Todos factory', function () {
         beforeEach(function () {
             $httpBackend
                 .whenPUT(API + '/' + todo.id)
-                .respond(todos.map(function (t) {
-                    return t.id === todo.id ? todo : t;
-                }));
+                .respond(Object.assign({}, todos.find(function (t) {
+                    return t.id === todo.id
+                }), {title: todo.title}));
         });
 
         it('should update todo with current id', function () {
-            TodosService.get(todo.id).then(function (response) {
+            TodosService.update(todo).then(function (response) {
                 expect(response.data).toEqual(todo);
             });
 
             $httpBackend.flush();
 
-            expect(TodosService.update).toHaveBeenCalledWith(todo.id);
+            expect(TodosService.update).toHaveBeenCalledWith(todo);
         });
     });
 });

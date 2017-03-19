@@ -1,12 +1,12 @@
 import * as Filter from '../constants/filter.constants';
 
-function TodoStore() {
+function TodosState() {
     this.todos = [];
     this.currentFilter = '';
     this.searchTemplate = '';
 }
 
-TodoStore.prototype.getFilteredList = function () {
+TodosState.prototype.getFilteredList = function () {
     var self = this;
     var fl;
 
@@ -38,7 +38,7 @@ TodoStore.prototype.getFilteredList = function () {
         });
 };
 
-TodoStore.prototype.getLeftItems = function () {
+TodosState.prototype.getLeftItems = function () {
     return this.todos
         .filter(function (t) {
             return t.active;
@@ -46,7 +46,7 @@ TodoStore.prototype.getLeftItems = function () {
         .length;
 };
 
-TodoStore.prototype.setFilter = function (filter) {
+TodosState.prototype.setFilter = function (filter) {
     this.currentFilter = filter;
 
     if (filter === Filter.ALL) {
@@ -54,4 +54,4 @@ TodoStore.prototype.setFilter = function (filter) {
     }
 };
 
-export default TodoStore;
+export default TodosState;

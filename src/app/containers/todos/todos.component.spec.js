@@ -1,27 +1,31 @@
 describe('Todos component tests', function () {
     'use strict';
 
+    var $q;
+
     var controller;
     var service;
     var state;
 
     beforeEach(angular.mock.module('todoListApp'));
 
-    beforeEach(inject(function (_$componentController_, _TodosService_, _TodosState_) {
+    beforeEach(inject(function (_$q_, _$componentController_, _TodosService_, _TodosState_) {
+        $q = _$q_;
+
         controller = _$componentController_('todos');
         service = _TodosService_;
         state = _TodosState_;
     }));
 
     describe('#$onInit', function () {
-        var todos = [{title: ''}];
+        var todos = [{}, {}];
         var fakeResponse;
 
         beforeEach(function () {
-            fakeResponse = Promise.resolve({data: todos});
+            fakeResponse = $q.resolve({data: todos});
         });
 
-        it('should call service`s #getAll and save responsed `todos` to state', function () {
+        it('should call service`s #getAll and save fetched `todos` to state', function () {
             spyOn(service, 'getAll').and.returnValue(fakeResponse);
 
             controller.$onInit()
@@ -34,15 +38,15 @@ describe('Todos component tests', function () {
     });
 
     describe('#addTodo', function () {
-        var todos = [{title: ''}];
+        var todos = [{}];
         var fakeResponse;
 
         beforeEach(function () {
-            state.todos = [{title: ''}];
-            fakeResponse = Promise.resolve({data: todos});
+            state.todos = [{}];
+            fakeResponse = $q.resolve({data: todos});
         });
 
-        it('should call service`s #add and save responsed `todos` to state', function () {
+        it('should call service`s #add and save fetched `todo` to state', function () {
             spyOn(service, 'add').and.returnValue(fakeResponse);
 
             controller.addTodo()
@@ -54,20 +58,23 @@ describe('Todos component tests', function () {
         });
     });
 
-   /*
     describe('#removeTodo', function () {
         var fakeResponse;
 
         beforeEach(function () {
-            fakeResponse = Promise.resolve([]);
+            state.todos = [{id: 1}];
+            fakeResponse = $q.resolve();
         });
 
-        it('should call service`s #remove', function () {
+        it('should call service`s #remove, and delete current `todo` from state', function () {
             spyOn(service, 'remove').and.returnValue(fakeResponse);
 
-            controller.removeTodo();
+            controller.removeTodo(state.todos[0])
+                .then(function () {
+                    expect(state.todos.length).toBe(0);
+                });
 
-            expect(service.remove).toHaveBeenCalled();
+            expect(service.remove).toHaveBeenCalledWith(state.todos[0]);
         });
     });
 
@@ -75,8 +82,8 @@ describe('Todos component tests', function () {
         var fakeResponse;
 
         beforeEach(function () {
-            state.todos = [{title: '', active: false}];
-            fakeResponse = Promise.resolve([]);
+            state.todos = [{active: false}];
+            fakeResponse = $q.resolve([]);
         });
 
         it('should call service`s #toggle and save `todo` changes to state', function () {
@@ -90,5 +97,4 @@ describe('Todos component tests', function () {
             expect(service.toggle).toHaveBeenCalled();
         });
     });
-    */
 });

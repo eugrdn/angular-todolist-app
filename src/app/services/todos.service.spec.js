@@ -7,14 +7,14 @@ describe('Todos factory', function () {
         {title: '', id: 2}
     ];
 
-    var TodosService;
     var $httpBackend;
+    var TodosService;
 
     beforeEach(angular.mock.module('todoListApp'));
 
-    beforeEach(inject(function (_TodosService_, _$httpBackend_) {
-        TodosService = _TodosService_;
+    beforeEach(inject(function (_$httpBackend_, _TodosService_) {
         $httpBackend = _$httpBackend_;
+        TodosService = _TodosService_;
     }));
 
     it('should exist', function () {
@@ -69,6 +69,7 @@ describe('Todos factory', function () {
         beforeEach(function () {
             spyOn(TodosService, 'add').and.callThrough();
         });
+
         beforeEach(function () {
             $httpBackend
                 .whenPOST(API)

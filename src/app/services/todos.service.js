@@ -1,7 +1,7 @@
 define(['shortid'], function (shortid) {
     'use strict';
 
-    function TodosService($http) {
+    function TodosService($q, $http) {
         var API = 'http://localhost:3004/todos';
         var FAKE_SERVER_RESPONSE = '505 Internal server error';
 
@@ -18,7 +18,7 @@ define(['shortid'], function (shortid) {
             return $http
                 .get(API)
                 .catch(function () {
-                    Promise.reject(FAKE_SERVER_RESPONSE)
+                    $q.reject(FAKE_SERVER_RESPONSE)
                 });
         }
 
@@ -26,7 +26,7 @@ define(['shortid'], function (shortid) {
             return $http
                 .get(API + '/' + id)
                 .catch(function () {
-                    Promise.reject(FAKE_SERVER_RESPONSE)
+                    $q.reject(FAKE_SERVER_RESPONSE)
                 });
         }
 
@@ -38,7 +38,7 @@ define(['shortid'], function (shortid) {
                     id: shortid.generate()
                 }))
                 .catch(function () {
-                    Promise.reject(FAKE_SERVER_RESPONSE)
+                    $q.reject(FAKE_SERVER_RESPONSE)
                 });
         }
 
@@ -51,7 +51,7 @@ define(['shortid'], function (shortid) {
                     active: !todo.active
                 })
                 .catch(function () {
-                    Promise.reject(FAKE_SERVER_RESPONSE)
+                    $q.reject(FAKE_SERVER_RESPONSE)
                 });
         }
 
@@ -64,7 +64,7 @@ define(['shortid'], function (shortid) {
                     active: todo.active
                 })
                 .catch(function () {
-                    Promise.reject(FAKE_SERVER_RESPONSE)
+                    $q.reject(FAKE_SERVER_RESPONSE)
                 });
         }
 
@@ -72,7 +72,7 @@ define(['shortid'], function (shortid) {
             return $http
                 .delete(API + '/' + todo.id, {id: todo.id})
                 .catch(function () {
-                    Promise.reject(FAKE_SERVER_RESPONSE)
+                    $q.reject(FAKE_SERVER_RESPONSE)
                 });
         }
     }

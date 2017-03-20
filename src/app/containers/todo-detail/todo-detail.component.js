@@ -18,7 +18,7 @@ define(['./todo-detail.template.html'], function (template) {
             ctrl.todo = {id: $routeParams.todoId};
 
             ctrl.$onInit = function () {
-                ctrl.service.get(ctrl.todo.id)
+                return ctrl.service.get(ctrl.todo.id)
                     .then(function (todo) {
                         ctrl.todo = todo.data;
                     })
@@ -29,7 +29,7 @@ define(['./todo-detail.template.html'], function (template) {
             };
 
             ctrl.submit = function () {
-                ctrl.service.update(ctrl.todo)
+                return ctrl.service.update(ctrl.todo)
                     .then(function (res) {
                         ctrl.todo = res.data;
                         alert(TASK_SAVE_INFORMATION(res.data.title));

@@ -20,7 +20,7 @@ define(function (require) {
     TodosComponentController.prototype.$onInit = function () {
         var ctrl = this;
 
-        ctrl.service.getAll()
+        return ctrl.service.getAll()
             .then(function (todos) {
                 ctrl.state.todos = todos.data;
             })
@@ -33,7 +33,7 @@ define(function (require) {
     TodosComponentController.prototype.addTodo = function (todo) {
         var ctrl = this;
 
-        ctrl.service.add(todo)
+        return ctrl.service.add(todo)
             .then(function (res) {
                 ctrl.state.todos = ctrl.state.todos.concat(res.data)
             })
@@ -45,7 +45,7 @@ define(function (require) {
     TodosComponentController.prototype.removeTodo = function (todo) {
         var ctrl = this;
 
-        ctrl.service.remove(todo)
+        return ctrl.service.remove(todo)
             .then(function () {
                 ctrl.state.todos = ctrl.state.todos.filter(function (t) {
                     return t.id !== todo.id;
@@ -59,7 +59,7 @@ define(function (require) {
     TodosComponentController.prototype.toggleTodo = function (todo) {
         var ctrl = this;
 
-        ctrl.service.toggle(todo)
+        return ctrl.service.toggle(todo)
             .then(function () {
                 ctrl.state.todos = ctrl.state.todos.map(function (t) {
                     return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;

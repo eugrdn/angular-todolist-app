@@ -1,6 +1,9 @@
 describe('Todo detail component tests', function () {
     'use strict';
 
+    var todo = {title: 'title'};
+    var fakeResponse;
+
     var controller;
     var service;
 
@@ -9,28 +12,27 @@ describe('Todo detail component tests', function () {
     beforeEach(inject(function (_$componentController_, _TodosService_) {
         controller = _$componentController_('todoDetail');
         service = _TodosService_;
+        fakeResponse = Promise.resolve({data: todo});
     }));
 
-    it('should call service`s #update, when #submit calling', function () {
-        spyOn(service, 'update');
+    it('should call service`s #update, when #submit calling and save responsed value to `todo` prop', function () {
+        spyOn(service, 'update').and.returnValue(fakeResponse);
 
-        try {
-            controller.submit();
-        } catch (e) {
-            //catch #then call
-        }
+        controller.submit()
+            .then(function () {
+                expect(controller.todo).toEqual(todo);
+            });
 
         expect(service.update).toHaveBeenCalled();
     });
 
-    it('should call service`s #get, when #$onInit calling', function () {
-        spyOn(service, 'get');
+    it('should call service`s #get, when #$onInit calling and save responsed value to `todo` prop', function () {
+        spyOn(service, 'get').and.returnValue(fakeResponse);
 
-        try {
-            controller.$onInit();
-        } catch (e) {
-            //catch #then call
-        }
+        controller.$onInit()
+            .then(function () {
+                expect(controller.todo).toEqual(todo);
+            });
 
         expect(service.get).toHaveBeenCalled();
     });

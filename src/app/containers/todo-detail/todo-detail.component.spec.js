@@ -1,6 +1,6 @@
-'use strict';
-
 describe('Todo detail component tests', function () {
+    'use strict';
+
     var controller;
     var service;
 
@@ -14,9 +14,9 @@ describe('Todo detail component tests', function () {
     it('should call service`s #update, when #submit calling', function () {
         spyOn(service, 'update');
 
-        try{
+        try {
             controller.submit();
-        }catch (e){
+        } catch (e) {
             //catch #then call
         }
 
@@ -26,9 +26,9 @@ describe('Todo detail component tests', function () {
     it('should call service`s #get, when #$onInit calling', function () {
         spyOn(service, 'get');
 
-        try{
+        try {
             controller.$onInit();
-        }catch (e){
+        } catch (e) {
             //catch #then call
         }
 

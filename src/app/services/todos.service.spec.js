@@ -1,4 +1,6 @@
 describe('Todos factory', function () {
+    'use strict';
+
     var API = 'http://localhost:3004/todos';
     var todos = [
         {title: '', id: 1},

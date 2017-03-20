@@ -1,10 +1,10 @@
-import template from './todo-counter.template.html';
+define(['./todo-counter.template.html'], function (template) {
+    'use strict';
 
-var TodoCounterComponent = {
-    bindings: {
-        counts: '<'
-    },
-    template: template
-};
-
-export default TodoCounterComponent;
+    return {
+        bindings: {
+            counts: '<'
+        },
+        template: template
+    };
+});

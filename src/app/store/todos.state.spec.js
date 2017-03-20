@@ -1,6 +1,6 @@
-'use strict';
-
 describe('Todos state tests', function () {
+    'use strict';
+
     var state;
 
     beforeEach(angular.mock.module('todoListApp'));

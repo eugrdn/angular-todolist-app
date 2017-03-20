@@ -1,6 +1,6 @@
-'use strict';
-
 describe('Todo filter component test', function () {
+    'use strict';
+
     var $componentController;
 
     beforeEach(angular.mock.module('todoListApp'));

@@ -1,25 +1,24 @@
-import template from './todo.template.html';
+define(['./todo.template.html'], function (template) {
+    'use strict';
 
-var TodoComponent = {
-    bindings: {
-        item: '<',
-        onToggle: '&',
-        onRemove: '&'
-    },
-    template: template,
-    controller: function TodoComponentController() {
-        this.handleToggle = function () {
-            this.onToggle({
-                todo: this.item
-            });
-        };
-        this.handleRemove = function () {
-            this.onRemove({
-                todo: this.item
-            });
-        };
-
-    }
-};
-
-export default TodoComponent;
+    return {
+        bindings: {
+            item: '<',
+            onToggle: '&',
+            onRemove: '&'
+        },
+        template: template,
+        controller: function TodoComponent() {
+            this.handleToggle = function () {
+                this.onToggle({
+                    todo: this.item
+                });
+            };
+            this.handleRemove = function () {
+                this.onRemove({
+                    todo: this.item
+                });
+            };
+        }
+    };
+});

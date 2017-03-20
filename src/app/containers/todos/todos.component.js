@@ -1,70 +1,74 @@
-import template from './todos.template.html'
+define(function (require) {
+    'use strict';
 
-import './todos.css';
+    require('./todos.css');
 
-var TodosComponent = {
-    template: template,
-    controller: TodosComponentController
-};
+    var template = require('./todos.template.html');
 
-function TodosComponentController(TodosState, TodosService) {
-    'ngInject';
+    var TodosComponent = {
+        template: template,
+        controller: TodosComponentController
+    };
 
-    this.service = TodosService;
-    this.state = TodosState;
-}
+    function TodosComponentController(TodosState, TodosService) {
+        'ngInject';
 
-TodosComponentController.prototype.$onInit = function () {
-    var ctrl = this;
+        this.service = TodosService;
+        this.state = TodosState;
+    }
 
-    ctrl.service.getAll()
-        .then(function (todos) {
-            ctrl.state.todos = todos.data;
-        })
-        .catch(function (err) {
-            ctrl.state.todos = [];
-            console.error(err);
-        });
-};
+    TodosComponentController.prototype.$onInit = function () {
+        var ctrl = this;
 
-TodosComponentController.prototype.addTodo = function (todo) {
-    var ctrl = this;
-
-    ctrl.service.add(todo)
-        .then(function (res) {
-            ctrl.state.todos = ctrl.state.todos.concat(res.data)
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
-};
-
-TodosComponentController.prototype.removeTodo = function (todo) {
-    var ctrl = this;
-
-    ctrl.service.remove(todo)
-        .then(function () {
-            ctrl.state.todos = ctrl.state.todos.filter(function (t) {
-                return t.id !== todo.id;
+        ctrl.service.getAll()
+            .then(function (todos) {
+                ctrl.state.todos = todos.data;
+            })
+            .catch(function (err) {
+                ctrl.state.todos = [];
+                console.error(err);
             });
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
-};
+    };
 
-TodosComponentController.prototype.toggleTodo = function (todo) {
-    var ctrl = this;
+    TodosComponentController.prototype.addTodo = function (todo) {
+        var ctrl = this;
 
-    ctrl.service.toggle(todo)
-        .then(function () {
-            ctrl.state.todos = ctrl.state.todos.map(function (t) {
-                return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
+        ctrl.service.add(todo)
+            .then(function (res) {
+                ctrl.state.todos = ctrl.state.todos.concat(res.data)
+            })
+            .catch(function (err) {
+                console.error(err);
             });
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
-};
+    };
 
-export default TodosComponent;
+    TodosComponentController.prototype.removeTodo = function (todo) {
+        var ctrl = this;
+
+        ctrl.service.remove(todo)
+            .then(function () {
+                ctrl.state.todos = ctrl.state.todos.filter(function (t) {
+                    return t.id !== todo.id;
+                });
+            })
+            .catch(function (err) {
+                console.error(err);
+            });
+    };
+
+    TodosComponentController.prototype.toggleTodo = function (todo) {
+        var ctrl = this;
+
+        ctrl.service.toggle(todo)
+            .then(function () {
+                ctrl.state.todos = ctrl.state.todos.map(function (t) {
+                    return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
+                });
+            })
+            .catch(function (err) {
+                console.error(err);
+            });
+    };
+
+    return TodosComponent;
+});

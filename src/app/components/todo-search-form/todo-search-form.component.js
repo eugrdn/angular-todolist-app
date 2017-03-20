@@ -1,10 +1,10 @@
-import template from './todo-search-form.template.html';
+define(['./todo-search-form.template.html'], function (template) {
+    'use strict';
 
-var TodoSearchFormComponent = {
-    bindings: {
-        template: '='
-    },
-    template: template
-};
-
-export default TodoSearchFormComponent;
+    return {
+        bindings: {
+            template: '='
+        },
+        template: template
+    };
+});

@@ -1,3 +1,9 @@
-export var ALL = 'filter_all';
-export var ACTIVE = 'filter_active';
-export var COMPLETED = 'filter_completed';
+define(function () {
+    'use strict';
+
+    return {
+        ALL: 'filter_all',
+        ACTIVE: 'filter_active',
+        COMPLETED: 'filter_completed'
+    }
+});

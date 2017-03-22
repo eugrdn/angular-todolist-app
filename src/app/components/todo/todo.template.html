@@ -1,16 +1,16 @@
-<li class="list-group-item" ng-class="$ctrl.item.active ? 'item-unchecked' : 'item-checked'">
-	<i
-		class="glyphicon icon-state"
-		ng-class="$ctrl.item.active ? 'glyphicon-unchecked': 'glyphicon-check'"
-		ng-click = "$ctrl.handleToggle()">
-	</i>
-		{{$ctrl.item.title}}
-	<a ng-href="#!/todos/{{$ctrl.item.id}}">
-		<i class="glyphicon glyphicon-edit icon-edit"></i>
-	</a>
-	<i
-		ng-hide="$ctrl.item.active"
-		class="glyphicon glyphicon-remove icon-remove"
-		ng-click = "$ctrl.handleRemove()">
-	</i>
+<li class="list-group-item" ng-class="vm.item.active ? 'item-unchecked' : 'item-checked'">
+    <i
+            class="glyphicon icon-state"
+            ng-class="vm.item.active ? 'glyphicon-unchecked': 'glyphicon-check'"
+            ng-click="vm.handleToggle()">
+    </i>
+    {{vm.item.title}}
+    <a ng-href="#!/todos/{{vm.item.id}}">
+        <i class="glyphicon glyphicon-edit icon-edit"></i>
+    </a>
+    <i
+            ng-hide="vm.item.active"
+            class="glyphicon glyphicon-remove icon-remove"
+            ng-click="vm.handleRemove()">
+    </i>
 </li>

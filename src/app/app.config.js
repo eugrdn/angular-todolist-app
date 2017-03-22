@@ -1,7 +1,11 @@
 define(function () {
     'use strict';
 
-    return function TodosConfig($routeProvider, $locationProvider) {
+    angular
+        .module('todoListApp')
+        .config(TodosConfig);
+
+    function TodosConfig($routeProvider, $locationProvider) {
         'ngInject';
 
         $locationProvider.hashPrefix('!');

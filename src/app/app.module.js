@@ -1,40 +1,19 @@
-define([
-    './app.config',
-    '../app/store/todos.state',
-    '../app/services/todos.service',
-    './directives/ccpStop.directive',
-    './containers/todos/todos.component',
-    './containers/todo-detail/todo-detail.component',
-    './components/todo-filter/todo-filter.component',
-    './components/todo-counter/todo-counter.component',
-    './components/todo-add-form/todo-add-form.component',
-    './components/todo-search-form/todo-search-form.component',
-    './components/todo/todo.component'
-], function (TodosConfig,
-             TodosState,
-             TodosService,
-             ccpStop,
-             Todos,
-             TodoDetail,
-             TodoFilter,
-             TodoCounter,
-             TodoAddForm,
-             TodoSearchForm,
-             TodoComponent) {
+define(function (require) {
     'use strict';
 
-    return angular
-        .module('todoListApp', ['ngRoute'])
-        .config(TodosConfig)
-        .service('TodosState', TodosState)
-        .factory('TodosService', TodosService)
-        .component('todos', Todos)
-        .component('todo', TodoComponent)
-        .directive('ccpStop', ccpStop)
-        .component('todoDetail', TodoDetail)
-        .component('todoFilter', TodoFilter)
-        .component('todoCounter', TodoCounter)
-        .component('todoAddForm', TodoAddForm)
-        .component('todoSearchForm', TodoSearchForm)
-        .name;
+    angular
+        .module('todoListApp', ['ngRoute']);
+
+    require('./app.config');
+    require('./constants/filter.constants');
+    require('./store/todos.state');
+    require('./services/todos.service');
+    require('./containers/todo-detail/todo-detail.component');
+    require('./components/todo-filter/todo-filter.component');
+    require('./components/todo-counter/todo-counter.component');
+    require('./components/todo-add-form/todo-add-form.component');
+    require('./directives/ccpStop.directive');
+    require('./components/todo/todo.component');
+    require('./components/todo-search-form/todo-search-form.component');
+    require('./containers/todos/todos.component');
 });

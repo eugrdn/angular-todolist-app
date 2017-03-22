@@ -1,74 +1,73 @@
-define(function (require) {
+define([
+    './todos.template.html',
+    './todos.css'
+], function (template) {
     'use strict';
 
-    require('./todos.css');
-
-    var template = require('./todos.template.html');
-
-    var TodosComponent = {
-        template: template,
-        controller: TodosComponentController
-    };
+    angular
+        .module('todoListApp')
+        .component('todos', {
+            template: template,
+            controller: TodosComponentController,
+            controllerAs: 'vm'
+        });
 
     function TodosComponentController(TodosState, TodosService) {
         'ngInject';
 
-        this.service = TodosService;
-        this.state = TodosState;
+        var vm = this;
+
+        vm.service = TodosService;
+        vm.state = TodosState;
+
+        vm.$onInit = onInit;
+        vm.addTodo = addTodo;
+        vm.removeTodo = removeTodo;
+        vm.toggleTodo = toggleTodo;
+
+        function onInit() {
+            return vm.service.getAll()
+                .then(function (todos) {
+                    vm.state.todos = todos.data;
+                })
+                .catch(function (err) {
+                    vm.state.todos = [];
+                    console.error(err);
+                });
+        }
+
+        function addTodo(todo) {
+            return vm.service.add(todo)
+                .then(function (res) {
+                    vm.state.todos = vm.state.todos.concat(res.data)
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
+        }
+
+        function removeTodo(todo) {
+            return vm.service.remove(todo)
+                .then(function () {
+                    vm.state.todos = vm.state.todos.filter(function (t) {
+                        return t.id !== todo.id;
+                    });
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
+        }
+
+        function toggleTodo(todo) {
+            return vm.service.toggle(todo)
+                .then(function () {
+                    vm.state.todos = vm.state.todos.map(function (t) {
+                        return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
+                    });
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
+        }
     }
-
-    TodosComponentController.prototype.$onInit = function () {
-        var ctrl = this;
-
-        return ctrl.service.getAll()
-            .then(function (todos) {
-                ctrl.state.todos = todos.data;
-            })
-            .catch(function (err) {
-                ctrl.state.todos = [];
-                console.error(err);
-            });
-    };
-
-    TodosComponentController.prototype.addTodo = function (todo) {
-        var ctrl = this;
-
-        return ctrl.service.add(todo)
-            .then(function (res) {
-                ctrl.state.todos = ctrl.state.todos.concat(res.data)
-            })
-            .catch(function (err) {
-                console.error(err);
-            });
-    };
-
-    TodosComponentController.prototype.removeTodo = function (todo) {
-        var ctrl = this;
-
-        return ctrl.service.remove(todo)
-            .then(function () {
-                ctrl.state.todos = ctrl.state.todos.filter(function (t) {
-                    return t.id !== todo.id;
-                });
-            })
-            .catch(function (err) {
-                console.error(err);
-            });
-    };
-
-    TodosComponentController.prototype.toggleTodo = function (todo) {
-        var ctrl = this;
-
-        return ctrl.service.toggle(todo)
-            .then(function () {
-                ctrl.state.todos = ctrl.state.todos.map(function (t) {
-                    return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
-                });
-            })
-            .catch(function (err) {
-                console.error(err);
-            });
-    };
-
-    return TodosComponent;
 });

@@ -1,7 +1,11 @@
 define(function () {
     'use strict';
 
-    return function ccpStop() {
+    angular
+        .module('todoListApp')
+        .directive('ccpStop', ccpStop);
+
+    function ccpStop() {
         return {
             restrict: 'A',
             link: function ($scope, $element) {
@@ -10,5 +14,5 @@ define(function () {
                 });
             }
         };
-    };
+    }
 });

@@ -1,24 +1,35 @@
 define(['./todo.template.html'], function (template) {
     'use strict';
 
-    return {
-        bindings: {
-            item: '<',
-            onToggle: '&',
-            onRemove: '&'
-        },
-        template: template,
-        controller: function TodoComponent() {
-            this.handleToggle = function () {
-                this.onToggle({
-                    todo: this.item
-                });
-            };
-            this.handleRemove = function () {
-                this.onRemove({
-                    todo: this.item
-                });
-            };
+    angular
+        .module('todoListApp')
+        .component('todo', {
+            bindings: {
+                item: '<',
+                onToggle: '&',
+                onRemove: '&'
+            },
+            template: template,
+            controller: TodoComponentController,
+            controllerAs: 'vm'
+        });
+
+    function TodoComponentController() {
+        var vm = this;
+
+        vm.handleToggle = handleToggle;
+        vm.handleRemove = handleRemove;
+
+        function handleToggle() {
+            vm.onToggle({
+                todo: vm.item
+            });
         }
-    };
+
+        function handleRemove() {
+            vm.onRemove({
+                todo: vm.item
+            });
+        }
+    }
 });

@@ -1,10 +1,12 @@
 define(['./todo-search-form.template.html'], function (template) {
     'use strict';
 
-    return {
-        bindings: {
-            template: '='
-        },
-        template: template
-    };
+    angular
+        .module('todoListApp')
+        .component('todoSearchForm', {
+            bindings: {
+                template: '='
+            },
+            template: template
+        });
 });

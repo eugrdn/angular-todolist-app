@@ -1,7 +1,13 @@
 define(['shortid'], function (shortid) {
     'use strict';
 
+    angular
+        .module('todoListApp')
+        .factory('TodosService', TodosService);
+
     function TodosService($q, $http) {
+        'ngInject';
+
         var API = 'http://localhost:3004/todos';
         var FAKE_SERVER_RESPONSE = '505 Internal server error';
 
@@ -76,6 +82,4 @@ define(['shortid'], function (shortid) {
                 });
         }
     }
-
-    return TodosService;
 });

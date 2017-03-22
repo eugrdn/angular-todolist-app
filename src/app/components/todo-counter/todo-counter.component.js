@@ -1,10 +1,12 @@
 define(['./todo-counter.template.html'], function (template) {
     'use strict';
 
-    return {
-        bindings: {
-            counts: '<'
-        },
-        template: template
-    };
+    angular
+        .module('todoListApp')
+        .component('todoCounter', {
+            bindings: {
+                counts: '<'
+            },
+            template: template
+        });
 });

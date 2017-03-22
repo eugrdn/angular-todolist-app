@@ -1,15 +1,15 @@
-<form class="todo_form form-inline" ng-submit="$ctrl.submit()">
-	<div class="form-group">
+<form class="todo_form form-inline" ng-submit="vm.submit()">
+    <div class="form-group">
 		<span class="input-group">
 			<span class="input-group-addon"><strong>To do:</strong></span>
 			<input
-				ng-model="$ctrl.todoTitle"
-				type="text"
-				class="form-control add-todo-input"
-				placeholder="Add something..."
-				ccp-stop
-				required>
+                    ng-model="vm.todoTitle"
+                    type="text"
+                    class="form-control add-todo-input"
+                    placeholder="Add something..."
+                    ccp-stop
+                    required>
 		</span>
-		<button type="submit" ng-disabled="!$ctrl.todoTitle" class="btn btn-primary btn-outline" id="btn-add">Add</button>
-	</div>
+        <button type="submit" ng-disabled="!vm.todoTitle" class="btn btn-primary btn-outline" id="btn-add">Add</button>
+    </div>
 </form>

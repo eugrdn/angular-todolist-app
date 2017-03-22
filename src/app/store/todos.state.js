@@ -1,61 +1,68 @@
-define(function (require) {
+define(function () {
     'use strict';
 
-    var Filter = require('../constants/filter.constants');
+    angular
+        .module('todoListApp')
+        .service('TodosState', TodosState);
 
-    function TodosState() {
-        this.todos = [];
-        this.currentFilter = '';
-        this.searchTemplate = '';
+    function TodosState(filters) {
+        'ngInject';
+
+        var vm = this;
+
+        vm.todos = [];
+        vm.currentFilter = '';
+        vm.searchTemplate = '';
+
+        vm.getFilteredList = getFilteredList;
+        vm.getLeftItems = getLeftItems;
+        vm.setFilter = setFilter;
+
+        function getFilteredList() {
+            var fl;
+
+            switch (vm.currentFilter) {
+                case filters.ALL:
+                    fl = vm.todos.slice();
+                    break;
+                case filters.ACTIVE:
+                    fl = vm.todos.filter(function (item) {
+                        return item.active;
+                    });
+                    break;
+                case filters.COMPLETED:
+                    fl = vm.todos.filter(function (item) {
+                        return !item.active;
+                    });
+                    break;
+                default:
+                    fl = vm.todos.slice();
+                    break;
+            }
+
+            return fl
+                .filter(function (t) {
+                    return t.title.toLowerCase().match(vm.searchTemplate);
+                })
+                .sort(function (a, b) {
+                    return (a.active < b.active) || (a.created_at - b.created_at);
+                });
+        }
+
+        function getLeftItems() {
+            return vm.todos
+                .filter(function (t) {
+                    return t.active;
+                })
+                .length;
+        }
+
+        function setFilter(filter) {
+            vm.currentFilter = filter;
+
+            if (filter === filters.ALL) {
+                vm.searchTemplate = '';
+            }
+        }
     }
-
-    TodosState.prototype.getFilteredList = function () {
-        var self = this;
-        var fl;
-
-        switch (self.currentFilter) {
-            case Filter.ALL:
-                fl = self.todos.slice();
-                break;
-            case Filter.ACTIVE:
-                fl = self.todos.filter(function (item) {
-                    return item.active;
-                });
-                break;
-            case Filter.COMPLETED:
-                fl = self.todos.filter(function (item) {
-                    return !item.active;
-                });
-                break;
-            default:
-                fl = self.todos.slice();
-                break;
-        }
-
-        return fl
-            .filter(function (t) {
-                return t.title.toLowerCase().match(self.searchTemplate);
-            })
-            .sort(function (a, b) {
-                return (a.active < b.active) || (a.created_at - b.created_at);
-            });
-    };
-
-    TodosState.prototype.getLeftItems = function () {
-        return this.todos
-            .filter(function (t) {
-                return t.active;
-            })
-            .length;
-    };
-
-    TodosState.prototype.setFilter = function (filter) {
-        this.currentFilter = filter;
-
-        if (filter === Filter.ALL) {
-            this.searchTemplate = '';
-        }
-    };
-
-    return TodosState;
 });

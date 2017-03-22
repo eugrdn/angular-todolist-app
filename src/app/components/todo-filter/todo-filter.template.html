@@ -1,0 +1,15 @@
+<div class="todo_filter">
+    <div role="toolbar" class="btn-toolbar">
+        <div class="btn-group btn-group-justified">
+            <button ng-click="vm.getFilter($event)" data-id="{{vm.filters.ALL}}" data-switch-toggle="state"
+                    class="btn btn-default btn-outline"> All
+            </button>
+            <button ng-click="vm.getFilter($event)" data-id="{{vm.filters.ACTIVE}}" data-switch-toggle="state"
+                    class="btn btn-default btn-outline"> Active
+            </button>
+            <button ng-click="vm.getFilter($event)" data-id="{{vm.filters.COMPLETED}}" data-switch-toggle="state"
+                    class="btn btn-default btn-outline"> Completed
+            </button>
+        </div>
+    </div>
+</div>

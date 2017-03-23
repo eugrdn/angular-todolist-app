@@ -9,7 +9,7 @@ define(['./todo-add-form.template.html'], function (template) {
             },
             template: template,
             controller: TodoAddFormComponentController,
-            controllerAs: 'vm'
+            controllerAs: 'addFormCtrl'
         });
 
     function TodoAddFormComponentController() {

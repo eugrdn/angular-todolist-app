@@ -11,7 +11,7 @@ define(['./todo.template.html'], function (template) {
             },
             template: template,
             controller: TodoComponentController,
-            controllerAs: 'vm'
+            controllerAs: 'todoCtrl'
         });
 
     function TodoComponentController() {

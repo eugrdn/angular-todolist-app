@@ -9,7 +9,7 @@ define([
         .component('todos', {
             template: template,
             controller: TodosComponentController,
-            controllerAs: 'vm'
+            controllerAs: 'todosCtrl'
         });
 
     function TodosComponentController(TodosState, TodosService) {

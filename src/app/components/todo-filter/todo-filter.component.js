@@ -9,7 +9,7 @@ define(['./todo-filter.template.html'], function (template) {
             },
             template: template,
             controller: TodoFilterComponentController,
-            controllerAs: 'vm'
+            controllerAs: 'filterCtrl'
         });
 
     function TodoFilterComponentController(filters) {

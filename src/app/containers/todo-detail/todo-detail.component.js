@@ -6,7 +6,7 @@ define(['./todo-detail.template.html'], function (template) {
         .component('todoDetail', {
                 template: template,
                 controller: TodoDetailComponentController,
-                controllerAs: 'vm'
+                controllerAs: 'todoDetailCtrl'
             }
         );
 

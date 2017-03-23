@@ -17,10 +17,6 @@ describe('Todos factory', function () {
         TodosService = _TodosService_;
     }));
 
-    it('should exist', function () {
-        expect(TodosService).toBeDefined();
-    });
-
     describe('#getAll', function () {
         beforeEach(function () {
             $httpBackend
@@ -58,8 +54,6 @@ describe('Todos factory', function () {
             });
 
             $httpBackend.flush();
-
-            expect(TodosService.get).toHaveBeenCalledWith(id);
         });
     });
 
@@ -82,8 +76,6 @@ describe('Todos factory', function () {
             });
 
             $httpBackend.flush();
-
-            expect(TodosService.add).toHaveBeenCalledWith(todo);
         });
     });
 
@@ -107,8 +99,6 @@ describe('Todos factory', function () {
                 });
 
             $httpBackend.flush();
-
-            expect(TodosService.toggle).toHaveBeenCalledWith(todo);
         });
     });
 
@@ -136,8 +126,6 @@ describe('Todos factory', function () {
                 });
 
             $httpBackend.flush();
-
-            expect(TodosService.remove).toHaveBeenCalledWith(todo);
         });
     });
 
@@ -162,8 +150,6 @@ describe('Todos factory', function () {
             });
 
             $httpBackend.flush();
-
-            expect(TodosService.update).toHaveBeenCalledWith(todo);
         });
     });
 });

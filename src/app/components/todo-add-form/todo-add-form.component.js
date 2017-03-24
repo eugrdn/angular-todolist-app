@@ -1,5 +1,7 @@
-define(['./todo-add-form.template.html'], function (template) {
+define(function () {
     'use strict';
+
+    var template = require('./todo-add-form.template.html');
 
     angular
         .module('todoListApp')

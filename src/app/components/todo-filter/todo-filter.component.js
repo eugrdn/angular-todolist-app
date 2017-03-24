@@ -1,5 +1,7 @@
-define(['./todo-filter.template.html'], function (template) {
+define(function () {
     'use strict';
+
+    var template = require('./todo-filter.template.html');
 
     angular
         .module('todoListApp')
@@ -23,7 +25,7 @@ define(['./todo-filter.template.html'], function (template) {
         function getFilter(event) {
             vm.onChange({
                 filter: event.target.dataset.id
-            })
+            });
         }
     }
 });

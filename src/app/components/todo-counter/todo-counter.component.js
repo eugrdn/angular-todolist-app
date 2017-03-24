@@ -1,5 +1,7 @@
-define(['./todo-counter.template.html'], function (template) {
+define(function () {
     'use strict';
+
+    var template = require('./todo-counter.template.html');
 
     angular
         .module('todoListApp')

@@ -6,6 +6,7 @@ define(function (require) {
 
     require('./app.config');
     require('./constants/filter.constants');
+    require('./constants/popup-messages.constants');
     require('./store/todos.state');
     require('./services/todos/todos.service.js');
     require('./services/user-popup/user-popup.service.js');

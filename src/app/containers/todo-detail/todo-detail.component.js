@@ -12,13 +12,10 @@ define(function () {
             }
         );
 
-    function TodoDetailComponentController($routeParams, TodosService, UserPopupService, Logger) {
+    function TodoDetailComponentController($routeParams, TodosService, UserPopupService, Logger, popupMessages) {
         'ngInject';
 
         var vm = this;
-
-        var successfulSave = 'Todo has been saved successfully!';
-        var failedSave = 'Oops! Todo hasn`t been saved!';
 
         vm.todo = {id: $routeParams.todoId};
 
@@ -40,10 +37,14 @@ define(function () {
             return TodosService.update(vm.todo)
                 .then(function (res) {
                     vm.todo = res.data;
-                    UserPopupService.showAlertPopup(successfulSave);
+                    UserPopupService.showAlertPopup(
+                        popupMessages.SUCCESSFUL_SAVE
+                    );
                 })
                 .catch(function (err) {
-                    UserPopupService.showAlertPopup(failedSave);
+                    UserPopupService.showAlertPopup(
+                        popupMessages.FAILED_SAVE
+                    );
                     Logger.logError(err);
                 });
         }

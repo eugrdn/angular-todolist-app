@@ -10,6 +10,7 @@ define(function (require) {
     require('./store/todos.state');
     require('./services/todos/todos.service.js');
     require('./services/user-popup/user-popup.service.js');
+    require('./services/logger/logger.service.js');
     require('./containers/todo-detail/todo-detail.component');
     require('./components/todo-filter/todo-filter.component');
     require('./components/todo-counter/todo-counter.component');

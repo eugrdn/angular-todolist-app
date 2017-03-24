@@ -11,7 +11,7 @@ define(function () {
         };
 
         function logError(err) {
-            console.err(err);
+            console.error(err);
         }
     }
 });

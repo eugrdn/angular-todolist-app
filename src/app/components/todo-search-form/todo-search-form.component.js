@@ -7,8 +7,22 @@ define(function () {
         .module('todoListApp')
         .component('todoSearchForm', {
             bindings: {
-                searchTemplate: '='
+                onChange: '&'
             },
-            template: template
+            template: template,
+            controller: TodoSearchFormController,
+            controllerAs: 'searchFormCtrl'
         });
+
+    function TodoSearchFormController() {
+        var vm = this;
+
+        vm.change = change;
+
+        function change() {
+            vm.onChange({
+                template: vm.template
+            });
+        }
+    }
 });

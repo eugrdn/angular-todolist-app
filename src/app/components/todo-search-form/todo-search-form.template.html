@@ -4,7 +4,8 @@
 			<span class="input-group-addon"><strong>Find:</strong></span>
 			<input
                     type="text"
-                    ng-model="$ctrl.searchTemplate"
+					ng-model="searchFormCtrl.template"
+					ng-change="searchFormCtrl.change()"
                     class="form-control add-todo-input"
                     placeholder="Search something..."
                     required>

@@ -9,12 +9,11 @@ describe('Todos component tests', function () {
 
     beforeEach(angular.mock.module('todoListApp'));
 
-    beforeEach(inject(function (_$q_, _$componentController_, _TodosService_, _TodosState_) {
+    beforeEach(inject(function (_$q_, _$componentController_, _TodosService_) {
         $q = _$q_;
 
         controller = _$componentController_('todos');
         service = _TodosService_;
-        state = _TodosState_;
     }));
 
     describe('#$onInit', function () {
@@ -30,7 +29,7 @@ describe('Todos component tests', function () {
 
             controller.$onInit()
                 .then(function () {
-                    expect(state.todos).toEqual(todos);
+                    expect(controller.todos).toEqual(todos);
                 });
 
             expect(service.getAll).toHaveBeenCalled();
@@ -42,7 +41,7 @@ describe('Todos component tests', function () {
         var fakeResponse;
 
         beforeEach(function () {
-            state.todos = [{}];
+            controller.todos = [{}];
             fakeResponse = $q.resolve({data: todos});
         });
 
@@ -51,7 +50,7 @@ describe('Todos component tests', function () {
 
             controller.addTodo()
                 .then(function () {
-                    expect(state.todos.length).toBe(2);
+                    expect(controller.todos.length).toBe(2);
                 });
 
             expect(service.add).toHaveBeenCalled();
@@ -62,19 +61,19 @@ describe('Todos component tests', function () {
         var fakeResponse;
 
         beforeEach(function () {
-            state.todos = [{id: 1}];
+            controller.todos = [{id: 1}];
             fakeResponse = $q.resolve();
         });
 
         it('should call service`s #remove, and delete current `todo` from state', function () {
             spyOn(service, 'remove').and.returnValue(fakeResponse);
 
-            controller.removeTodo(state.todos[0])
+            controller.removeTodo(controller.todos[0])
                 .then(function () {
-                    expect(state.todos.length).toBe(0);
+                    expect(controller.todos.length).toBe(0);
                 });
 
-            expect(service.remove).toHaveBeenCalledWith(state.todos[0]);
+            expect(service.remove).toHaveBeenCalledWith(controller.todos[0]);
         });
     });
 
@@ -82,7 +81,7 @@ describe('Todos component tests', function () {
         var fakeResponse;
 
         beforeEach(function () {
-            state.todos = [{active: false}];
+            controller.todos = [{active: false}];
             fakeResponse = $q.resolve([]);
         });
 
@@ -91,10 +90,54 @@ describe('Todos component tests', function () {
 
             controller.toggleTodo()
                 .then(function () {
-                    expect(state.todos[0].active).toBe(true);
+                    expect(controller.todos[0].active).toBe(true);
                 });
 
             expect(service.toggle).toHaveBeenCalled();
+        });
+    });
+
+    describe('#filterTodos', function () {
+        var fakeResponse;
+        var filter;
+
+        beforeEach(function () {
+            filter = '';
+            todos = [{}, {}];
+            fakeResponse = $q.resolve(todos);
+        });
+
+        it('should call service`s #getFilteredTodos with filter arg and save fetched `todos` to state', function () {
+            spyOn(service, 'getFilteredTodos').and.returnValue(fakeResponse);
+
+            controller.filterTodos(filter)
+                .then(function () {
+                    expect(controller.todos).toEqual(todos);
+                });
+
+            expect(service.toggle).toHaveBeenCalledWith(filter);
+        });
+    });
+
+    describe('#getLeftItems', function () {
+        it('should return number of active todos', function () {
+            controller.todos = [
+                {title: '', active: true},
+                {title: '', active: false}
+            ];
+
+            expect(controller.getLeftItems()).toBe(1);
+        });
+    });
+
+    describe('#getSortedList', function () {
+        it('should return todos in right order', function () {
+            controller.todos = [
+                {title: '', active: false, created_at: 2},
+                {title: '', active: true, created_at: 1}
+            ];
+
+            expect(controller.getSortedList()).toEqual(controller.todos.reverse());
         });
     });
 });

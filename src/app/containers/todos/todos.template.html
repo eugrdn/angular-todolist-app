@@ -1,12 +1,12 @@
 <todo-add-form on-submit="todosCtrl.addTodo(todo)"></todo-add-form>
-<todo-search-form search-template="vm.getSearchTemplate"></todo-search-form>
+<todo-search-form on-change="todoCtrl.setSearchTemplate(template)"></todo-search-form>
 <ul class="list-group checked-list-box">
     <todo
-            ng-repeat="todo in todosCtrl.state.getFilteredList()"
+            ng-repeat="todo in todosCtrl.getSortedList()"
             item="todo"
             on-toggle="todosCtrl.toggleTodo(todo)"
             on-remove="todosCtrl.removeTodo(todo)">
     </todo>
 </ul>
-<todo-filter on-change="todosCtrl.state.setFilter(filter)"></todo-filter>
-<todo-counter counts="todosCtrl.state.getLeftItems()"></todo-counter>
+<todo-filter on-change="todosCtrl.filterTodos(filter)"></todo-filter>
+<todo-counter counts="todosCtrl.getLeftItems()"></todo-counter>

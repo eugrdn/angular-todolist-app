@@ -13,33 +13,62 @@ define(function () {
             controllerAs: 'todosCtrl'
         });
 
-    function TodosComponentController(TodosState, TodosService, Logger) {
+    function TodosComponentController(TodosService, Logger) {
         'ngInject';
 
         var vm = this;
 
+        vm.todos = [];
+        vm.searchTemplate = '';
+
         vm.$onInit = onInit;
+
+        vm.getSortedList = getSortedList;
+        vm.getLeftItems = getLeftItems;
+        vm.setSearchTemplate = setSearchTemplate;
+
         vm.addTodo = addTodo;
         vm.removeTodo = removeTodo;
         vm.toggleTodo = toggleTodo;
-
-        vm.getSearchTemplate = getSearchTemplate;
+        vm.filterTodos = filterTodos;
 
         function onInit() {
             return TodosService.getAll()
                 .then(function (todos) {
-                    TodosState.todos = todos.data;
+                    vm.todos = todos.data;
                 })
                 .catch(function (err) {
-                    TodosState.todos = [];
+                    vm.todos = [];
                     Logger.logError(err);
                 });
+        }
+
+        function setSearchTemplate(template) {
+            vm.searchTemplate = template;
+        }
+
+        function getSortedList() {
+            return vm.todos
+                .filter(function (t) {
+                    return t.title.toLowerCase().match(vm.searchTemplate);
+                })
+                .sort(function (a, b) {
+                    return (a.active < b.active) || (a.created_at - b.created_at);
+                });
+        }
+
+        function getLeftItems() {
+            return vm.todos
+                .filter(function (t) {
+                    return t.active;
+                })
+                .length;
         }
 
         function addTodo(todo) {
             return TodosService.add(todo)
                 .then(function (res) {
-                    TodosState.todos = TodosState.todos.concat(res.data)
+                    vm.todos = vm.todos.concat(res.data)
                 })
                 .catch(function (err) {
                     Logger.logError(err);
@@ -49,7 +78,7 @@ define(function () {
         function removeTodo(todo) {
             return TodosService.remove(todo)
                 .then(function () {
-                    TodosState.todos = TodosState.todos.filter(function (t) {
+                    vm.todos = vm.todos.filter(function (t) {
                         return t.id !== todo.id;
                     });
                 })
@@ -61,7 +90,7 @@ define(function () {
         function toggleTodo(todo) {
             return TodosService.toggle(todo)
                 .then(function () {
-                    TodosState.todos = TodosState.todos.map(function (t) {
+                    vm.todos = vm.todos.map(function (t) {
                         return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
                     });
                 })
@@ -70,8 +99,14 @@ define(function () {
                 });
         }
 
-        function getSearchTemplate() {
-            return TodosState.searchTemplate;
+        function filterTodos(filter) {
+            return TodosService.getFilteredTodos(filter)
+                .then(function (todos) {
+                    vm.todos = todos.data;
+                })
+                .catch(function (err) {
+                    Logger.logError(err);
+                });
         }
     }
 });

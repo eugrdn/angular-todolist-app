@@ -5,7 +5,7 @@ define(['shortid'], function (shortid) {
         .module('todoListApp')
         .factory('TodosService', TodosService);
 
-    function TodosService($q, $http) {
+    function TodosService($q, $http, filters) {
         'ngInject';
 
         var API = 'http://localhost:3004/todos';
@@ -17,7 +17,8 @@ define(['shortid'], function (shortid) {
             add: addTodo,
             remove: removeTodo,
             toggle: toggleTodo,
-            update: updateTodo
+            update: updateTodo,
+            getFilteredTodos: getFilteredTodos
         };
 
         function getAll() {
@@ -80,6 +81,30 @@ define(['shortid'], function (shortid) {
                 .catch(function () {
                     $q.reject(FAKE_SERVER_RESPONSE)
                 });
+        }
+
+        function getFilteredTodos(filter) {
+            switch (filter) {
+                case filters.ALL:
+                    return getAll();
+                    break;
+                case filters.ACTIVE:
+                    return $http
+                        .get(API + '?active=true')
+                        .catch(function () {
+                            $q.reject(FAKE_SERVER_RESPONSE)
+                        });
+                    break;
+                case filters.COMPLETED:
+                    return $http
+                        .get(API + '?active=false')
+                        .catch(function () {
+                            $q.reject(FAKE_SERVER_RESPONSE)
+                        });
+                    break;
+                default:
+                    return getAll();
+            }
         }
     }
 });

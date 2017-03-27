@@ -1,5 +1,5 @@
 <todo-add-form on-submit="todosCtrl.addTodo(todo)"></todo-add-form>
-<todo-search-form on-change="todoCtrl.setSearchTemplate(template)"></todo-search-form>
+<todo-search-form on-change="todosCtrl.setSearchTemplate(template)"></todo-search-form>
 <ul class="list-group checked-list-box">
     <todo
             ng-repeat="todo in todosCtrl.getSortedList()"

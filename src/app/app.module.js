@@ -1,35 +1,21 @@
-import TodosConfig from './app.config';
+define(function (require) {
+    'use strict';
 
-import TodosState from '../app/store/todos.state';
+    angular
+        .module('todoListApp', ['ngRoute']);
 
-import TodosService from '../app/services/todos.service';
-
-import ccpStop from './directives/ccpStop.directive';
-
-import {
-    Todos,
-    TodoDetail
-} from './containers/index';
-
-import {
-    Todo,
-    TodoFilter,
-    TodoCounter,
-    TodoAddForm,
-    TodoSearchForm
-} from './components/index';
-
-export const TodoAppModule = angular
-    .module('todoListApp', ['ngRoute'])
-    .config(TodosConfig)
-    .service('TodosState', TodosState)
-    .factory('TodosService', TodosService)
-    .component('todos', Todos)
-    .component('todo', Todo)
-    .directive('ccpStop', () => new ccpStop())
-    .component('todoDetail', TodoDetail)
-    .component('todoFilter', TodoFilter)
-    .component('todoCounter', TodoCounter)
-    .component('todoAddForm', TodoAddForm)
-    .component('todoSearchForm', TodoSearchForm)
-    .name;
+    require('./app.config');
+    require('./constants/filter.constants');
+    require('./constants/popup-messages.constants');1
+    require('./services/todos/todos.service.js');
+    require('./services/user-popup/user-popup.service.js');
+    require('./services/logger/logger.service.js');
+    require('./containers/todo-detail/todo-detail.component');
+    require('./components/todo-filter/todo-filter.component');
+    require('./components/todo-counter/todo-counter.component');
+    require('./components/todo-search-form/todo-search-form.component');
+    require('./components/todo-add-form/todo-add-form.component');
+    require('./directives/ccpStop.directive');
+    require('./components/todo/todo.component');
+    require('./containers/todos/todos.component');
+});

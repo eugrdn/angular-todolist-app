@@ -1,10 +1,28 @@
-import template from './todo-search-form.template.html';
+define(function () {
+    'use strict';
 
-const TodoSearchFormComponent = {
-	bindings: {
-		template: '='
-	},
-	template
-};
+    var template = require('./todo-search-form.template.html');
 
-export default TodoSearchFormComponent;
+    angular
+        .module('todoListApp')
+        .component('todoSearchForm', {
+            bindings: {
+                onChange: '&'
+            },
+            template: template,
+            controller: TodoSearchFormController,
+            controllerAs: 'searchFormCtrl'
+        });
+
+    function TodoSearchFormController() {
+        var vm = this;
+
+        vm.change = change;
+
+        function change() {
+            vm.onChange({
+                template: vm.template
+            });
+        }
+    }
+});

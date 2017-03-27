@@ -1,10 +1,14 @@
-import template from './todo-counter.template.html';
+define(function () {
+    'use strict';
 
-const TodoCounterComponent = {
-	bindings: {
-		counts: '<'
-	},
-	template
-};
+    var template = require('./todo-counter.template.html');
 
-export default TodoCounterComponent;
+    angular
+        .module('todoListApp')
+        .component('todoCounter', {
+            bindings: {
+                counts: '<'
+            },
+            template: template
+        });
+});

@@ -1,25 +1,37 @@
-import template from './todo.template.html';
+define(function () {
+    'use strict';
 
-const TodoComponent = {
-	bindings: {
-		item: '<',
-		onToggle: '&',
-		onRemove: '&'
-	},
-	template,
-	controller: class TodoComponent {
-		handleToggle() {
-			this.onToggle({
-				todo: this.item
-			});
-		}
+    var template = require('./todo.template.html');
 
-		handleRemove() {
-			this.onRemove({
-				todo: this.item
-			});
-		}
-	}
-};
+    angular
+        .module('todoListApp')
+        .component('todo', {
+            bindings: {
+                item: '<',
+                onToggle: '&',
+                onRemove: '&'
+            },
+            template: template,
+            controller: TodoComponentController,
+            controllerAs: 'todoCtrl'
+        });
 
-export default TodoComponent;
+    function TodoComponentController() {
+        var vm = this;
+
+        vm.handleToggle = handleToggle;
+        vm.handleRemove = handleRemove;
+
+        function handleToggle() {
+            vm.onToggle({
+                todo: vm.item
+            });
+        }
+
+        function handleRemove() {
+            vm.onRemove({
+                todo: vm.item
+            });
+        }
+    }
+});

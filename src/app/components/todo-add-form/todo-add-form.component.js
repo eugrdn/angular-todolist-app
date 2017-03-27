@@ -1,21 +1,32 @@
-import template from './todo-add-form.template.html';
+define(function () {
+    'use strict';
 
-const TodoAddFormComponent = {
-	bindings: {
-		onSubmit: '&'
-	},
-	template,
-	controller: class TodoAddFormComponent {
-		submit() {
-			this.onSubmit({
-				todo: {
-					title: this.todoTitle,
-					created_at: Date.now()
-				}
-			});
-			this.todoTitle = '';
-		}
-	}
-};
+    var template = require('./todo-add-form.template.html');
 
-export default TodoAddFormComponent;
+    angular
+        .module('todoListApp')
+        .component('todoAddForm', {
+            bindings: {
+                onSubmit: '&'
+            },
+            template: template,
+            controller: TodoAddFormComponentController,
+            controllerAs: 'addFormCtrl'
+        });
+
+    function TodoAddFormComponentController() {
+        var vm = this;
+
+        vm.submit = submit;
+
+        function submit() {
+            vm.onSubmit({
+                todo: {
+                    title: vm.todoTitle,
+                    created_at: Date.now()
+                }
+            });
+            vm.todoTitle = '';
+        }
+    }
+});

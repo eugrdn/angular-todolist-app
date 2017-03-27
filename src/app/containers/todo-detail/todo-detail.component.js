@@ -1,47 +1,52 @@
-import template from './todo-detail.template.html';
+define(function () {
+    'use strict';
 
-const TASK_SAVE_INFORMATION = (title) =>
-	title
-		? `Todo "${title}" has been saved successfully!`
-		: `Oops! Todo hasn't been saved!`;
+    var template = require('./todo-detail.template.html');
 
-const TodoDetailComponent = {
-	template,
-	controller: class TodoDetailComponent {
-		constructor($routeParams, TodosState, TodosService) {
-			'ngInject';
+    angular
+        .module('todoListApp')
+        .component('todoDetail', {
+                template: template,
+                controller: TodoDetailComponentController,
+                controllerAs: 'todoDetailCtrl'
+            }
+        );
 
-			this.state = TodosState;
-			this.service = TodosService;
+    function TodoDetailComponentController($routeParams, TodosService, UserPopupService, Logger, popupMessages) {
+        'ngInject';
 
-			this.todo = {
-				id: $routeParams.todoId
-			}
-		}
+        var vm = this;
 
-		$onInit() {
-			this.service.get(this.todo.id)
-				.then(todo => {
-					this.todo = todo.data;
-				})
-				.catch(err => {
-					this.todo = {};
-					console.error(err);
-				})
-		}
+        vm.todo = {id: $routeParams.todoId};
 
-		submit() {
-			this.service.update(this.todo)
-				.then(({ data }) => {
-					this.todo = data;
-					alert(TASK_SAVE_INFORMATION(data.title));
-				})
-				.catch(err => {
-					alert(TASK_SAVE_INFORMATION());
-					console.error(err)
-				});
-		}
-	}
-};
+        vm.$onInit = onInit;
+        vm.submit = submit;
 
-export default TodoDetailComponent;
+        function onInit() {
+            return TodosService.get(vm.todo.id)
+                .then(function (todo) {
+                    vm.todo = todo.data;
+                })
+                .catch(function (err) {
+                    vm.todo = {};
+                    Logger.logError(err);
+                })
+        }
+
+        function submit() {
+            return TodosService.update(vm.todo)
+                .then(function (res) {
+                    vm.todo = res.data;
+                    UserPopupService.showAlertPopup(
+                        popupMessages.SUCCESSFUL_SAVE
+                    );
+                })
+                .catch(function (err) {
+                    UserPopupService.showAlertPopup(
+                        popupMessages.FAILED_SAVE
+                    );
+                    Logger.logError(err);
+                });
+        }
+    }
+});

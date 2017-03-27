@@ -5,9 +5,9 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "angular": "1.5.x",
-    "angular-route": "1.5.x",
-    "angular-mocks": "1.5.x",
+    "angular": "1.6.x",
+    "angular-route": "1.6.x",
+    "angular-mocks": "1.6.x",
     "bootstrap": "latest"
   }
 }

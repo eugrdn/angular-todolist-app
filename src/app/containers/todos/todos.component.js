@@ -1,73 +1,112 @@
-import template from './todos.template.html'
+define(function () {
+    'use strict';
 
-import * as Filter from '../../constants/filter.constants';
+    require('./todos.css');
 
-import './todos.css';
+    var template = require('./todos.template.html');
 
-const TodosComponent = {
-    template,
-    controller: class TodosComponent {
-        constructor(TodosState, TodosService) {
-            'ngInject';
+    angular
+        .module('todoListApp')
+        .component('todos', {
+            template: template,
+            controller: TodosComponentController,
+            controllerAs: 'todosCtrl'
+        });
 
-            this.state = TodosState;
-            this.service = TodosService;
-        }
+    function TodosComponentController(TodosService, Logger) {
+        'ngInject';
 
-        $onInit() {
-            this.service.getAll()
-                .then(todos => {
-                    this.state.todos = todos.data;
+        var vm = this;
+
+        vm.todos = [];
+        vm.searchTemplate = '';
+
+        vm.$onInit = onInit;
+
+        vm.getSortedList = getSortedList;
+        vm.getLeftItems = getLeftItems;
+        vm.setSearchTemplate = setSearchTemplate;
+
+        vm.addTodo = addTodo;
+        vm.removeTodo = removeTodo;
+        vm.toggleTodo = toggleTodo;
+        vm.filterTodos = filterTodos;
+
+        function onInit() {
+            return TodosService.getAll()
+                .then(function (todos) {
+                    vm.todos = todos.data;
                 })
-                .catch(err => {
-                    this.state.todos = [];
-                    console.error(err);
+                .catch(function (err) {
+                    vm.todos = [];
+                    Logger.logError(err);
+                });
+        }
+
+        function setSearchTemplate(template) {
+            vm.searchTemplate = template;
+        }
+
+        function getSortedList() {
+            return vm.todos
+                .filter(function (t) {
+                    return t.title.toLowerCase().match(vm.searchTemplate);
                 })
+                .sort(function (a, b) {
+                    return (a.active < b.active) || (a.created_at - b.created_at);
+                });
         }
 
-        addTodo(todo) {
-            this.service.add(todo)
-                .then(({data}) => {
-                    this.state.todos = [
-                        ...this.state.todos,
-                        {...data}
-                    ]
+        function getLeftItems() {
+            return vm.todos
+                .filter(function (t) {
+                    return t.active;
                 })
-                .catch(err => console.error(err));
+                .length;
         }
 
-        filterTodo(filter) {
-            this.state.currentFilter = filter;
-
-            if (filter === Filter.ALL) {
-                this.state.searchTemplate = '';
-            }
-        }
-
-        removeTodo(todo) {
-            this.service.remove(todo)
-                .then(() => {
-                    this.state.todos = [...this.state.todos.filter(t => t.id !== todo.id)];
+        function addTodo(todo) {
+            return TodosService.add(todo)
+                .then(function (res) {
+                    vm.todos = vm.todos.concat(res.data)
                 })
-                .catch(err => console.error(err));
+                .catch(function (err) {
+                    Logger.logError(err);
+                });
         }
 
-        searchTodo(template) {
-            if (template) {
-                this.state.searchTemplate = template.replace(/[^(?!' )a-zA-zа-яА-я0-9]+/g, '').replace(/\s{2,}/, ' ').toLowerCase();
-            } else {
-                this.state.searchTemplate = '';
-            }
-        }
-
-        toggleTodo(todo) {
-            this.service.toggle(todo)
-                .then(() => {
-                    this.state.todos = this.state.todos.map(t => t.id === todo.id ? {...t, active: !t.active} : t);
+        function removeTodo(todo) {
+            return TodosService.remove(todo)
+                .then(function () {
+                    vm.todos = vm.todos.filter(function (t) {
+                        return t.id !== todo.id;
+                    });
                 })
-                .catch(err => console.error(err));
+                .catch(function (err) {
+                    Logger.logError(err);
+                });
+        }
+
+        function toggleTodo(todo) {
+            return TodosService.toggle(todo)
+                .then(function () {
+                    vm.todos = vm.todos.map(function (t) {
+                        return t.id === todo.id ? Object.assign({}, t, {active: !t.active}) : t;
+                    });
+                })
+                .catch(function (err) {
+                    Logger.logError(err);
+                });
+        }
+
+        function filterTodos(filter) {
+            return TodosService.getFilteredTodos(filter)
+                .then(function (todos) {
+                    vm.todos = todos.data;
+                })
+                .catch(function (err) {
+                    Logger.logError(err);
+                });
         }
     }
-};
-
-export default TodosComponent;
+});

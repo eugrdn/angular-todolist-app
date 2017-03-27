@@ -1,3 +1,11 @@
-export const ALL = 'filter_all';
-export const ACTIVE = 'filter_active';
-export const COMPLETED = 'filter_completed';
+define(function () {
+    'use strict';
+
+    angular
+        .module('todoListApp')
+        .constant('filters', {
+            ALL: 'filter_all',
+            ACTIVE: 'filter_active',
+            COMPLETED: 'filter_completed'
+        });
+});

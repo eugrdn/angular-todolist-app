@@ -1,45 +1,31 @@
-import * as filter from '../../constants/filter.constants';
+define(function () {
+    'use strict';
 
-const TodoFilterComponent = {
-	bindings: {
-		onChange: '&'
-	},
-	controller: class TodoFilterComponent {
-		getFilter(event) {
-			this.onChange({
-				filter: event.target.dataset.id
-			})
-		}
-	},
-	template:
-	`<div class='todo_filter'>
-		<div role="toolbar" class="btn-toolbar">
-			<div class="btn-group btn-group-justified">
-				<button
-					ng-click="$ctrl.getFilter($event)"
-					data-id="${filter.ALL}"
-					data-switch-toggle="state"
-					class="btn btn-default btn-outline">
-					All
-				</button>
-				<button
-					ng-click="$ctrl.getFilter($event)"
-					data-id="${filter.ACTIVE}"
-					data-switch-toggle="state"
-					class="btn btn-default btn-outline">
-					Active
-				</button>
-				<button
-					ng-click="$ctrl.getFilter($event)"
-					data-id="${filter.COMPLETED}"
-					data-switch-toggle="state"
-					class="btn btn-default btn-outline">
-					Completed
-				</button>
-			</div>
-		</div>
-	</div>`
-		.trim()
-};
+    var template = require('./todo-filter.template.html');
 
-export default TodoFilterComponent;
+    angular
+        .module('todoListApp')
+        .component('todoFilter', {
+            bindings: {
+                onChange: '&'
+            },
+            template: template,
+            controller: TodoFilterComponentController,
+            controllerAs: 'filterCtrl'
+        });
+
+    function TodoFilterComponentController(filters) {
+        'ngInject';
+
+        var vm = this;
+
+        vm.filters = filters;
+        vm.getFilter = getFilter;
+
+        function getFilter(event) {
+            vm.onChange({
+                filter: event.target.dataset.id
+            });
+        }
+    }
+});

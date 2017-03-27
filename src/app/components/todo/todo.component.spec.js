@@ -1,23 +1,25 @@
-describe('Todo component tests', () => {
-    let $componentController;
+describe('Todo component tests', function () {
+    'use strict';
+
+    var $componentController;
 
     beforeEach(angular.mock.module('todoListApp'));
 
-    beforeEach(inject(_$componentController_ => {
+    beforeEach(inject(function (_$componentController_) {
         $componentController = _$componentController_;
     }));
 
-    it('should expose a `todo` object', () => {
-        const bindings = {item: {id: 1, title: ''}};
-        const controller = $componentController('todo', null, bindings);
+    it('should expose a `todo` object', function () {
+        var bindings = {item: {id: 1, title: ''}};
+        var controller = $componentController('todo', null, bindings);
 
         expect(controller.item).toEqual(bindings.item);
     });
 
-    it('should call the `#onToggle` binding, when #handleToggle calling', () => {
-        const onToggle = jasmine.createSpy('onToggle');
-        const bindings = {item: {}, onToggle};
-        const controller = $componentController('todo', null, bindings);
+    it('should call the `#onToggle` binding, when #handleToggle calling', function () {
+        var onToggle = jasmine.createSpy('onToggle');
+        var bindings = {item: {}, onToggle: onToggle};
+        var controller = $componentController('todo', null, bindings);
 
         controller.handleToggle();
 
@@ -26,10 +28,10 @@ describe('Todo component tests', () => {
         });
     });
 
-    it('should call the `#onRemove` binding, when #handleRemove calling', () => {
-        const onRemove = jasmine.createSpy('onRemove');
-        const bindings = {item: {}, onRemove};
-        const controller = $componentController('todo', null, bindings);
+    it('should call the `#onRemove` binding, when #handleRemove calling', function () {
+        var onRemove = jasmine.createSpy('onRemove');
+        var bindings = {item: {}, onRemove: onRemove};
+        var controller = $componentController('todo', null, bindings);
 
         controller.handleRemove();
 

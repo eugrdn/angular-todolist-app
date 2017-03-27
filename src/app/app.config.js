@@ -1,16 +1,22 @@
-const TodosConfig = ($routeProvider, $locationProvider) => {
-	'ngInject';
+define(function () {
+    'use strict';
 
-	$locationProvider.hashPrefix('!');
+    angular
+        .module('todoListApp')
+        .config(TodosConfig);
 
-	$routeProvider.
-		when('/todos', {
-			template: '<todos></todos>'
-		}).
-		when('/todos/:todoId', {
-			template: '<todo-detail></todo-detail>'
-		}).
-		otherwise('/todos');
-};
+    function TodosConfig($routeProvider, $locationProvider) {
+        'ngInject';
 
-export default TodosConfig;
+        $locationProvider.hashPrefix('!');
+
+        $routeProvider
+            .when('/todos', {
+                template: '<todos></todos>'
+            })
+            .when('/todos/:todoId', {
+                template: '<todo-detail></todo-detail>'
+            })
+            .otherwise('/todos');
+    }
+});
